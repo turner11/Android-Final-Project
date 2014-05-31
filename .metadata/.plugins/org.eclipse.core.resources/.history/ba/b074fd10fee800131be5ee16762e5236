@@ -1,0 +1,61 @@
+package com.finalProject.smstranslator;
+
+public class WordTranslationPair implements Cloneable
+{
+		private String _translatedWord;
+		/** 
+		 Gets the word translated.
+		*/
+		public final String getTranslatedWord()
+		{
+			return _translatedWord;
+		}
+
+		private java.util.ArrayList<String> _translationList;
+		/** 
+		 Gets the list containing Translations for word<string>.
+		*/
+		public final java.util.Collection<String> getTranslationList()
+		{
+			return _translationList;
+		}
+
+		/** 
+		 Initializes a new instance of the <see cref="WordTranslationPair"/> class.
+		*/
+		public WordTranslationPair()
+		{
+			this("", null);
+
+		}
+
+
+		/** 
+		 Initializes a new instance of the <see cref="WordTranslationPair"/> class.
+		 
+		 @param translatedWord The translated word.
+		 @param translationList The translation list.
+		*/
+		public WordTranslationPair(String translatedWord, java.util.Collection<String> translationList)
+		{
+			this._translatedWord = (translatedWord != null) ? translatedWord : "";
+			this._translationList = new java.util.ArrayList<String>();
+			//Adding the words from list to new instance. (we are doing it this way, in order not to change parameter's pointer)
+			java.util.Collection<String> collection = translationList;
+			if (collection == null)
+			{
+				collection = new java.util.ArrayList<String>();
+			}
+
+			this._translationList.addAll(translationList);
+
+
+		}
+
+
+		public final Object Clone()
+		{
+			WordTranslationPair clone = new WordTranslationPair(this.getTranslatedWord(), this.getTranslationList());
+			return clone;
+		}
+}

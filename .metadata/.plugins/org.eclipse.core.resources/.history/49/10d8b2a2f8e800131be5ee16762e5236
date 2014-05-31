@@ -1,0 +1,134 @@
+package com.finalProject.smstranslator;
+
+public class GoogleTranslator {
+
+
+	/** 
+	 The template for translation requests from google 
+	 */
+	final static String GOOGLE_TRANSLATE_URL_TEMPLATE = "http://translate.google.com/translate_a/t?client=p&hl={0}&sl={1}&tl={2}&ie=UTF-8&oe=UTF-8&multires=1&oc=2&otf=1&ssel=0&tsel=0&pc=1&sc=1&q={3}";
+
+
+	//"http://translate.google.com/translate_a/t?client=t&hl=iw&sl=auto&tl=iw&ie=UTF-8&oe=UTF-8&multires=1&oc=1&prev=conf&psl=en&ptl=iw&otf=1&it=sel.8772&ssel=3&tsel=6&uptl=iw&alttl=en&sc=1&q=dog"
+
+	//"http://translate.google.com/translate_a/t?client=p&text={0}&hl={1}&sl=en&tl={2}&ie=UTF-8&oe=UTF-8&multires=1&otf=2&ssel=2&tsel=2&sc=1";  
+
+	/** 
+	 Initializes a new instance of the <see cref="GoogleTranslator"/> class.
+	 */
+	public GoogleTranslator()
+	{
+
+	}
+
+
+
+	/** 
+	 Translates a sentence.
+
+	 @param expression The sentence.
+	 @param source The language to translate from.
+	 @param target The language to translate to.
+	 @param encoding The encoding.
+	 @return The translation
+	 */
+	private Translation TranslateExpression(String expression, Language languageFrom, Language languageTo)
+	{
+		Translation trans = new Translation(expression);
+		Encoding encoding = Encoding.GetEncoding(1255);
+		//Getting the url
+		String url = GoogleTranslator.GetTranslateUrl(expression, languageFrom, languageTo);
+
+		String reply = "";
+		try (WebClient webClient = new WebClient())
+		{
+			try
+			{
+
+				webClient.Encoding = encoding;
+				Stream st = webClient.OpenRead(url);
+				StreamReader reader = new StreamReader(st);
+				reply = reader.ReadToEnd();
+			}
+			catch (WebException ex)
+			{
+				trans.ErrorException = ex;
+				return trans;
+				//TODO: add logging
+			}
+
+		}
+		if (!tangible.DotNetToJavaStringHelper.isNullOrEmpty(reply))
+		{
+			trans = this.GetTranslationFromReply(reply);
+		}
+		else
+		{
+			//TODO: Add log
+		}
+
+
+		return trans;
+	}
+
+	/** 
+	 Gets the translation from googles reply.
+
+	 @param reply Googls reply.
+	 */
+	private String GetTranslationFromReply(String reply)
+	{
+		String result = reply.substring(2, result.indexOf("]]") + 1);
+        StringBuilder sb = new StringBuilder();
+        String[] splits = result.split("(?<!\\\\)\"");
+        for(int i = 1; i < splits.length; i += 8)
+            sb.append(splits[i]);
+        String translation =  sb.toString().replace("\\n", "\n").replaceAll("\\\\(.)", "$1");
+		return translation;
+	}
+
+
+
+
+
+	/** 
+Gets the translate URL.
+
+@param expression The sentence.
+@param source The language to translate from.
+@param target The language to translate to.
+@return the url for requesting translate
+	 */
+	private static String GetTranslateUrl(String expression, Language languageFrom, Language languageTo)
+	{
+
+		boolean isAutoDetect = languageFrom == null;
+
+		String targetSymbol = languageTo.Symbol;
+		String sourceSymbol = isAutoDetect ? "" : languageFrom.Symbol;
+
+
+
+		return GetUrlBySymbols(expression, sourceSymbol, targetSymbol);
+	}
+
+	/** 
+Gets the URL by symbols.
+
+@param expression The expression to translate.
+@param sourceSymbol The symbol of source language.
+@param targetSymbol The symbol of to source language.
+@return the url
+	 */
+	private static String GetUrlBySymbols(String expression, String sourceSymbol, String targetSymbol)
+	{
+		// for a parameter called SL in the URL...
+		String slParam = sourceSymbol == null || sourceSymbol.trim() == "" ? "auto" : sourceSymbol;
+
+		//this is for passing the expression in encodeURIcomponent format for non english expressions
+		String encodedSentene = Uri.EscapeUriString(expression);
+		String url = String.format(GoogleTranslator.GOOGLE_TRANSLATE_URL_TEMPLATE, sourceSymbol, slParam, targetSymbol, encodedSentene);
+		return url;
+	}
+
+}
