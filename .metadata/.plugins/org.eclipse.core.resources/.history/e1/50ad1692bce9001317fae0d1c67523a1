@@ -1,0 +1,76 @@
+package com.finalProject.smstranslator;
+
+import android.os.AsyncTask;
+
+public class AsyncTranslator extends AsyncTask<Integer, Integer, Void> {
+
+	GoogleTranslator _translator = new GoogleTranslator();
+	protected void onPreExecute()
+	{
+		this.txbProgress = (TextView)findViewById(R.id.txbProgress);
+		this.btnStart= (Button)findViewById(R.id.btnStart);
+		this.btnStart.setVisibility(Button.INVISIBLE);
+		dialog =(ProgressBar) findViewById(R.id.progressBar);
+		dialog.setVisibility(ProgressBar.VISIBLE);
+		dialog.setProgress(0);
+		this.txbProgress.setText("");
+	}
+
+
+	@Override
+	protected void onProgressUpdate(Integer... values)
+	{
+		int val = values[0];
+		Log.d("onProgressUpdate", "Progress: "+val);
+		dialog.setProgress(val);
+		this.txbProgress.setText(String.valueOf(val));
+
+	}
+	@Override
+	protected void onPostExecute(Void result)
+	{
+		this.btnStart.setVisibility(Button.VISIBLE);
+		dialog.setVisibility(ProgressBar.INVISIBLE);
+		dialog.setProgress(0);
+		this.txbProgress.setText("");
+	}
+	@Override
+	protected Void doInBackground(Integer... args) {
+
+		int max = args[0];
+		int time = args[1];
+		int interval = args[2];
+
+		if(max <1 || time <1 || interval <1)
+			return null;
+
+
+
+		dialog.setMax(max);
+
+
+		long sleepPeriod = (long)((time*interval) /(double) max);
+		sleepPeriod= Math.max(sleepPeriod, 1);
+
+		for (int i = 0; i < max; i+=interval)
+		{	
+
+			try
+			{
+				Thread.sleep(sleepPeriod,0);
+
+			} catch (InterruptedException e)
+			{
+				Log.e("doInBackground", "@@Error while thread sleep: "+e.getMessage());
+				e.printStackTrace();
+			}
+			int progress = Math.min(max, i); 
+			this.publishProgress(progress);
+		}
+		return null;
+
+	}
+
+}
+
+

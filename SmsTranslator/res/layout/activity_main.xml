@@ -8,12 +8,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/txbText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="49dp"
+        android:inputType="text"
+        android:lines="5"
         android:text="@string/hello_world" />
+
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txbText"
+        android:layout_below="@+id/txbText"        
+        android:text="@string/Send" />
 
 </RelativeLayout>
