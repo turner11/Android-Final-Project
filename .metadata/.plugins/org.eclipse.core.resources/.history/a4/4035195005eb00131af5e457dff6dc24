@@ -1,0 +1,51 @@
+package com.finalProject.smstranslator;
+
+import java.util.ArrayList;
+
+
+import android.preference.ListPreference;
+import android.preference.PreferenceActivity;
+import android.widget.Spinner;
+
+import android.os.Bundle;
+
+public class SettingsActivity extends PreferenceActivity {
+
+	ListPreference _lpFrom;
+	ListPreference _lpTo;
+	/** Called when the activity is first created. */
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+	    super.onCreate(savedInstanceState);
+	
+	    addPreferencesFromResource(R.xml.settings);
+	    
+	    
+	    //android:entries="@array/syncFrequency"
+	    //android:entryValues="@array/syncFrequencyValues"
+		//this.InitSpinners();
+
+	}
+	private void InitSpinners() {
+		this._lpFrom = (ListPreference)findPreference( getResources().getString(R.string.pref_LangFrom_Key));
+		this._lpTo = (ListPreference)findPreference( getResources().getString(R.string.pref_LangFrom_Key));
+		
+		ArrayList<Language> langs = new LanguagesHandler().GetLanguages();
+		
+		//Toast.makeText(getApplicationContext(), langs.size()+" Languages parsed", Toast.LENGTH_LONG).show();
+		
+		// Create an ArrayAdapter using the string array and a default spinner layout
+		LanguagesAdapter adapter = new LanguagesAdapter(langs);
+		
+		// Apply the adapter to the spinner
+		this._spnFrom.setAdapter(adapter);
+		this._spnTo.setAdapter(adapter);
+		
+	}
+	
+	
+
+}
+
+

@@ -37,10 +37,10 @@ public class GoogleTranslator {
 	 * @throws IOException 
 	 * @throws URISyntaxException 
 	 */
-	public static String TranslateExpression(String expression, Language languageFrom, Language languageTo) throws IOException, URISyntaxException 
+	public static String TranslateExpression(String expression, String languageFromSymbol, String languageToSymbol) throws IOException, URISyntaxException 
 	{
-
-		String urlStr = GoogleTranslator.GetTranslateUrl(expression, languageFrom, languageTo);
+	
+		String urlStr = GoogleTranslator.GetUrlBySymbols(expression, languageFromSymbol, languageToSymbol);
 		URL url = new URL(urlStr);
 		
 		URLConnection urlConnection = url.openConnection();
@@ -79,29 +79,8 @@ public class GoogleTranslator {
 
 
 
-	/** 
-Gets the translate URL.
-
-@param expression The sentence.
-@param source The language to translate from.
-@param target The language to translate to.
-@return the url for requesting translate
-	 * @throws IOException 
-	 * @throws URISyntaxException 
-	 */
-	private static String GetTranslateUrl(String expression, Language languageFrom, Language languageTo) throws URISyntaxException, IOException
-	{
-
-		/*
-
-		String targetSymbol = languageTo.getSymbol();
-		String sourceSymbol = languageFrom.getSymbol();
-*/		
-		String sourceSymbol = "en";
-		String targetSymbol = "he";
-		
-		return GetUrlBySymbols(expression, sourceSymbol, targetSymbol);
-	}
+	
+	
 
 	/** 
 Gets the URL by symbols.

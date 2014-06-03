@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+ 
+    <PreferenceCategory android:title="@string/hello_world" >
+        <EditTextPreference
+                android:title="@string/hello_world"
+                android:summary="@string/hello_world"
+                android:key="prefUsername"/>
+    </PreferenceCategory>
+     
+    <PreferenceCategory android:title="@string/hello_world" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="prefSendReport"
+            android:summary="@string/hello_world"
+            android:title="@string/hello_world" >
+        </CheckBoxPreference>
+ 
+        <ListPreference
+            android:key="prefSyncFrequency"
+           
+            android:summary="@string/hello_world"
+            
+            android:title="@string/hello_world" />
+    </PreferenceCategory>
+ 
+</PreferenceScreen>

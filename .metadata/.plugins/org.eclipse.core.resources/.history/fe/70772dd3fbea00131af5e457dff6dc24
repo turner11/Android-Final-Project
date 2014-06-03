@@ -1,0 +1,108 @@
+package com.finalProject.smstranslator;
+
+import java.util.ArrayList;
+
+import android.preference.PreferenceActivity;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
+import android.os.Bundle;
+
+public class SettingsActivity extends PreferenceActivity {
+
+	Spinner _spnFrom;
+	Spinner _spnTo;
+	/** Called when the activity is first created. */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+	    super.onCreate(savedInstanceState);
+	
+	    
+		
+		addPreferencesFromResource(R.layout.settings_layout);
+		this.InitSpinners();
+
+	}
+	private void InitSpinners() {
+		this._spnFrom = (Spinner) findViewById(R.id.spnLangFrom);
+		this._spnTo = (Spinner) findViewById(R.id.spnLangTo);
+		
+		ArrayList<Language> langs = new LanguagesHandler().GetLanguages();
+		
+		//Toast.makeText(getApplicationContext(), langs.size()+" Languages parsed", Toast.LENGTH_LONG).show();
+		
+		// Create an ArrayAdapter using the string array and a default spinner layout
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+		        R.array.planets_array, android.R.layout.simple_spinner_item);
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		this._spnFrom.setAdapter(adapter);
+		this._spnTo.setAdapter(adapter);
+		
+	}
+	
+	/**
+     * This is your own Adapter implementation which displays
+     * the ArrayList of "Guy"-Objects.
+     */
+    private class MyAdapter extends BaseAdapter implements SpinnerAdapter {
+
+        /**
+         * The internal data (the ArrayList with the Objects).
+         */
+        private final List<Guy> data;
+
+        public MyAdapter(List<Guy> data){
+            this.data = data;
+        }
+
+        /**
+         * Returns the Size of the ArrayList
+         */
+        @Override
+        public int getCount() {
+            return data.size();
+        }
+
+        /**
+         * Returns one Element of the ArrayList
+         * at the specified position.
+         */
+        @Override
+        public Object getItem(int position) {
+            return data.get(position);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+        /**
+         * Returns the View that is shown when a element was
+         * selected.
+         */
+        @Override
+        public View getView(int position, View recycle, ViewGroup parent) {
+            TextView text;
+            if (recycle != null){
+                // Re-use the recycled view here!
+                text = (TextView) recycle;
+            } else {
+                // No recycled view, inflate the "original" from the platform:
+                text = (TextView) getLayoutInflater().inflate(
+                        android.R.layout.simple_dropdown_item_1line, parent, false
+                );
+            }
+            text.setTextColor(Color.BLACK);
+            text.setText(data.get(position).name);
+            return text;
+        }
+
+
+    }
+	
+
+}
+
+

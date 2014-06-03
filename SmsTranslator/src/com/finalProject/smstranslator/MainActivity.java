@@ -1,88 +1,87 @@
 package com.finalProject.smstranslator;
 
 
-
-
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
 
 public class MainActivity extends Activity {
+
+	
+
+	private static Context context;
 
 	EditText _txbText;
 	Button _btnSend;
 	
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        
-        this._txbText = (EditText)this.findViewById(R.id.txbText);
-        this._btnSend = (Button)this.findViewById(R.id.btnSend);
-        
-        this._btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            	String expression = _txbText.getText().toString();
-            	AsyncTranslator asyncTrnaslator = new AsyncTranslator(); 
-                asyncTrnaslator.execute(expression, null, null);
-            }
-        });
-        
+	SharedPreferences _prefs; 
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		MainActivity.context = getApplicationContext();
+		setContentView(R.layout.activity_main);
+
+		this._txbText = (EditText)this.findViewById(R.id.txbText);
+		this._btnSend = (Button)this.findViewById(R.id.btnSend);
+
+		this._btnSend.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				String expression = _txbText.getText().toString();
+				AsyncTranslator asyncTrnaslator = new AsyncTranslator(); 
+				
+				String symbolFrom = _prefs.getString(getResources().getString(R.string.pref_LangFrom_Key), "en");
+				String symbolTo = _prefs.getString(getResources().getString(R.string.pref_LangTo_Key), "en");
+				
+				
+				asyncTrnaslator.execute(expression,symbolFrom, symbolTo);
+			}
+		});
+
+		 this._prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		  
+		 
+	       
+
+
+	}
+
+	public static Context getAppContext() {
+		return MainActivity.context;
+	}
+
+
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.action_settings:
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
+	
+	
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-    
-    public class AsyncTranslator extends AsyncTask<Object, Integer, String> {
-    	
-    	protected void onPreExecute()
-    	{
-    		
-    	}
-
-
-    	@Override
-    	protected void onProgressUpdate(Integer... values)
-    	{
-    		
-
-    	}
-    	@Override
-    	protected void onPostExecute(String result)
-    	{
-    		Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-    	}
-    	
-    	@Override
-    	protected String doInBackground(Object... args) {
-    		
-    		String expression = (String)args[0];
-    		Language sourcelanguage =(Language)args[1];
-    		Language targetLanguage =(Language)args[2];
-    		String retVal;
-    		 try {
-    			 retVal = GoogleTranslator.TranslateExpression(expression, sourcelanguage, targetLanguage);
-    			} catch (Exception e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    				retVal = "Translation Failed";
-    				//Toast.makeText(getApplicationContext(), "Failed to send SMS.", Toast.LENGTH_LONG).show();
-    			}
-    		return retVal;
-
-    	}
-
-    }
-    
 }

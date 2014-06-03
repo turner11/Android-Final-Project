@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+ 
+       
+    <PreferenceCategory android:title="@string/pref_update_setting" >
+        
+ 
+        <ListPreference
+            android:key="prefLanguageFrom"            
+            android:summary="@string/pref_LangFrom_summary"            
+            android:title="@string/pref_sync_frequency" />
+    </PreferenceCategory>
+ 
+ 
+</PreferenceScreen>

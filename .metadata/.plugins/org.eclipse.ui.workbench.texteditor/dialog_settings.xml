@@ -2,27 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="305" key="DIALOG_WIDTH"/>
-		<item value="224" key="DIALOG_Y_ORIGIN"/>
+		<item value="212" key="DIALOG_Y_ORIGIN"/>
+		<item value="2139" key="DIALOG_X_ORIGIN"/>
 		<item value="442" key="DIALOG_HEIGHT"/>
-		<item value="362" key="DIALOG_X_ORIGIN"/>
-		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|5|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="hello" key="selection"/>
+		<item value="_prefs" key="selection"/>
 		<list key="findhistory">
-			<item value="hello"/>
-			<item value="GOOGLE_TRANSLATE_URL_TEMPLATE"/>
-			<item value="Language"/>
-			<item value="english"/>
-			<item value="engl"/>
-			<item value="WordTranslationPair"/>
-			<item value="U"/>
-			<item value="u"/>
+			<item value="entry"/>
+			<item value="_prefs"/>
+			<item value="_lpTo"/>
+			<item value="async"/>
+			<item value="onOptionsItemSelected"/>
+			<item value="guy"/>
+			<item value="addPreferencesFromResource"/>
+			<item value="click"/>
 		</list>
 		<list key="replacehistory">
 			<item value="language"/>
