@@ -7,6 +7,7 @@
     <string name="Send">Send</string>
     
     
+    <string name="pref_update_setting">Update Language Settings</string>
     
     <string name="pref_LangFrom_Key">prefFromKey</string>
     <string name="pref_LangFrom">Language to translate from</string>
@@ -16,7 +17,20 @@
     <string name="pref_LangTo">Language to translate text to</string>
     <string name="pref_LangTo_summary">Set the Language to translate to</string>
     
-    <string name="pref_update_setting">Update Language Settings</string>
+    <string name="pref_Auto_LangFromKey">AutoPrefFromKey</string>
+    <string name="pref_Auto_LangFrom">Auto Choose language From</string>
+    <string name="pref_Auto_LangFrom_Summary">Choose automatically the language to translate From</string>
+    
+    <string name="pref_Auto_LangTo_Key">AutoPrefToKey</string>
+    <string name="pref_Auto_LangTo">CAuto Choose language to</string>
+    <string name="pref_Auto_LangTo_Summary">Choose automatically the language to translate to</string>
+    
+
+    
+    
+    
+    
+    
    
 
 </resources>

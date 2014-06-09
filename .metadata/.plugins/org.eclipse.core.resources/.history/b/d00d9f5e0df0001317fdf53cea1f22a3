@@ -1,0 +1,37 @@
+package com.finalProject.smstranslator;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+public class PreferencesManager {
+
+	static SharedPreferences _prefs;
+	static Context _context;
+	static
+	{
+		_context = MainActivity.getAppContext();
+		_prefs = PreferenceManager.getDefaultSharedPreferences(_context);
+	}
+	public String getLanguageTo(boolean autoChooseTo) {
+		String symbolTo;
+		if (autoChooseTo) 
+			//getting "To" language from device setting
+			symbolTo = LanguageLogics.getLocalLanguageSymbol();
+		else	
+			//getting "To" language from preferences
+			symbolTo = _prefs.getString(getResources().getString(R.string.pref_LangTo_Key), "en");
+		return symbolTo;
+	}
+
+	public  String getLanguageFrom(boolean autoChooseFrom) {
+		String symbolFrom;
+		if (autoChooseFrom) 
+			//getting "From" language from device setting
+			symbolFrom = LanguageLogics.getDeviceLanguageSymbol();				
+		else
+			//getting "From" language from preferences
+			symbolFrom = _prefs.getString(getResources().getString(R.string.pref_LangFrom_Key), "en");
+		return symbolFrom;
+	}
+}

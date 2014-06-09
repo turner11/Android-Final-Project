@@ -9,6 +9,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
+/**
+ * 
+ * A class for retrieving translation from google translate web service.
+ *
+ */
 public class GoogleTranslator {
 
 
@@ -21,10 +26,6 @@ public class GoogleTranslator {
 	//"http://translate.google.com/translate_a/t?client=t&hl=iw&sl=auto&tl=iw&ie=UTF-8&oe=UTF-8&multires=1&oc=1&prev=conf&psl=en&ptl=iw&otf=1&it=sel.8772&ssel=3&tsel=6&uptl=iw&alttl=en&sc=1&q=dog"
 
 	//"http://translate.google.com/translate_a/t?client=p&text={0}&hl={1}&sl=en&tl={2}&ie=UTF-8&oe=UTF-8&multires=1&otf=2&ssel=2&tsel=2&sc=1";  
-
-	
-
-
 
 	/** 
 	 Translates a sentence.
@@ -74,13 +75,6 @@ public class GoogleTranslator {
 		String translation =  sb.toString().replace("\\n", "\n").replaceAll("\\\\(.)", "$1");
 		return translation;
 	}
-
-
-
-
-
-	
-	
 
 	/** 
 Gets the URL by symbols.

@@ -2,7 +2,11 @@ package com.finalProject.smstranslator;
 
 import android.os.AsyncTask;
 import android.widget.Toast;
-
+/**
+ * 
+ * A class for getting a translation in am asynchronous manner
+ *
+ */
 public class AsyncTranslator extends AsyncTask<Object, Integer, String> {
 
 	public static final boolean DEV_MODE = true;
@@ -27,11 +31,13 @@ public class AsyncTranslator extends AsyncTask<Object, Integer, String> {
 
 	@Override
 	protected String doInBackground(Object... args) {
-
+		/*The convention of location of arguments in this application:
+		 * 0 Expression to translate
+		 * 1 The language symbol to translate from.
+		 * 2 The language symbol to translate to.
+		 */
 		String expression = (String)args[0];
-		/*Language sourcelanguage =(Language)args[1];
-		Language targetLanguage =(Language)args[2];*/
-		
+				
 		String sourcelanguageSymbol =(String )args[1];
 		String targetLanguageSymbol =(String )args[2];
 		
