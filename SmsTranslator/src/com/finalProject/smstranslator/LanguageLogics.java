@@ -78,7 +78,7 @@ public class LanguageLogics {
 			if (LastKnownLocation != null) {
 
 
-				Context baseContext = MainActivity.getAppBaseContext();
+				Context baseContext = MainActivity.getAppContext();
 				List<Address> addresses = null;
 				Geocoder geoCoder = new Geocoder(baseContext, Locale.getDefault());
 
