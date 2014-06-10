@@ -1,71 +1,49 @@
 package com.finalProject.smstranslator;
 
 
+import com.finalProject.smstranslator.SMSHalper.SMSProvider;
+import com.finalProject.smstranslator.SMSHalper.SMSMainAdapter;
+import com.finalProject.smstranslator.SMSHalper.SMSMainDetails;
+
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 
 public class MainActivity extends Activity {
 
-	
-
 	private static Context context;
-
-	EditText _txbText;
-	Button _btnSend;
 	
-	SharedPreferences _prefs; 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		MainActivity.context = getApplicationContext();
 		setContentView(R.layout.activity_main);
+		context = getAppContext();
+		SMSProvider provider = new SMSProvider(this);
+		SMSMainAdapter ad = new SMSMainAdapter(this, provider.getMainSMSDetails());
+		
+		ListView lv = (ListView) findViewById(R.id.smsDetails);
+		lv.setAdapter(ad);
+		
+		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-		this._txbText = (EditText)this.findViewById(R.id.txbText);
-		this._btnSend = (Button)this.findViewById(R.id.btnSend);
-
-		this._btnSend.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(View v) {
-
-				String expression = _txbText.getText().toString();
-				AsyncTranslator asyncTrnaslator = new AsyncTranslator(); 
-				
-				String symbolFrom = _prefs.getString(getResources().getString(R.string.pref_LangFrom_Key), "en");
-				String symbolTo = _prefs.getString(getResources().getString(R.string.pref_LangTo_Key), "en");
-				
-				
-				asyncTrnaslator.execute(expression,symbolFrom, symbolTo);
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				SMSMainDetails entry = (SMSMainDetails) parent.getItemAtPosition(position);
+				onItemClicked(entry.getAddress());
 			}
 		});
-
-		 this._prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		  
-		 
-	       
-
-
+			
 	}
-
-	public static Context getAppContext() {
-		return MainActivity.context;
-	}
-
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
@@ -80,8 +58,15 @@ public class MainActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-	
-	
 
-
+	public static Context getAppContext() {
+		return context;
+	}
+	
+	private void onItemClicked(String address){
+		Intent intent = new Intent(this, ConversationActivity.class);
+		intent.putExtra("address", address);
+		startActivity(intent);
+	}
+	
 }
