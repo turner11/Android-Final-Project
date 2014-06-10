@@ -1,7 +1,0 @@
-package com.finalProject.smstranslator;
-
-import android.os.AsyncTask;
-
-public class AsyncTranslator extends AsyncTask<Params, Progress, Result> {
-
-}

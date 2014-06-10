@@ -9,8 +9,13 @@
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
+=======
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+>>>>>>> 330c7199e160f22798eefc1eb78cd4ec11177a22
 
     <application
         android:allowBackup="true"

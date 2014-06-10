@@ -1,0 +1,3 @@
+1402337963074	Extract method 'getCountryBySimCarrier'
+1402342391647	Extract method 'getLanguageFrom'
+1402342408173	Extract method 'getLanguageTo'

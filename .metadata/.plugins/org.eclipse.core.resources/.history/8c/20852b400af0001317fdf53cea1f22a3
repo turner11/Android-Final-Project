@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SmsTranslator</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="Send">Send</string>
+    
+    
+    <string name="pref_update_setting">Update Language Settings</string>
+    
+    <string name="pref_LangFrom_Key">prefFromKey</string>
+    <string name="pref_LangFrom">Language to translate from</string>
+    <string name="pref_LangFrom_summary">Set the Language to translate from</string>
+    
+    <string name="pref_LangTo_Key">prefToKey</string>
+    <string name="pref_LangTo">Language to translate text to</string>
+    <string name="pref_LangTo_summary">Set the Language to translate to</string>
+    
+    <string name="pref_Auto_LangFromKey">AutoPrefFromKey</string>
+    <string name="pref_Auto_LangFrom">Choose automatically the language to translate From</string>
+    
+    <string name="pref_Auto_LangTo_Key">AutoPrefToKey</string>
+    <string name="pref_Auto_LangTo">Choose automatically the language to translate to</string>
+    
+
+    
+    
+    
+    
+    
+   
+
+</resources>
+

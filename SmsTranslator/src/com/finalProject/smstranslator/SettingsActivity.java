@@ -9,6 +9,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 	ListPreference _lpFrom;
 	ListPreference _lpTo;
+	
 	/** Called when the activity is first created. */
 	@SuppressWarnings("deprecation")
 	@Override
@@ -24,6 +25,9 @@ public class SettingsActivity extends PreferenceActivity {
 
 	}
 	
+	/**
+	 * Initializes the list of preferences.
+	 */
 	@SuppressWarnings("deprecation")
 	private void InitListPreferences() {
 		this._lpFrom = (ListPreference)findPreference( getResources().getString(R.string.pref_LangFrom_Key));
