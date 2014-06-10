@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		context = getAppContext();
+		MainActivity.context = getApplicationContext();
 		SMSProvider provider = new SMSProvider(this);
 		SMSMainAdapter ad = new SMSMainAdapter(this, provider.getMainSMSDetails());
 		

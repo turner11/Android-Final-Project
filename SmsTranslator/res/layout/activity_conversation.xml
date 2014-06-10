@@ -5,12 +5,12 @@
     tools:context=".ConversationActivity" >
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/txbMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/button1"
+        android:layout_toLeftOf="@+id/btnSend"
         android:ems="10"
         android:inputType="textMultiLine"
         android:lines="4" >
@@ -20,7 +20,7 @@
         android:id="@+id/conversationList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/editText1"
+        android:layout_above="@+id/txbMessage"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/tv_address"
         android:background="@android:color/white"
@@ -54,21 +54,21 @@
         android:background="@android:color/darker_gray" />
 
     <ImageButton
-        android:id="@+id/button1"
+        android:id="@+id/btnSend"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/conversationList"
-        android:src="@drawable/send" 
-        android:onClick="sendSMS"/>
+        android:onClick="sendSMS"
+        android:src="@drawable/send" />
 
     <ImageButton
-        android:id="@+id/Button01"
+        android:id="@+id/btnTranslate"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/button1"
-        android:src="@drawable/translate" 
-        android:onClick="translate" />
+        android:layout_below="@+id/btnSend"
+        android:onClick="translate"
+        android:src="@drawable/translate" />
 
 </RelativeLayout>

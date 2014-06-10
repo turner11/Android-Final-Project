@@ -12,17 +12,35 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.util.ArrayMap;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SMSProvider.
+ */
 public class SMSProvider {
+
+	/** The Constant SMS_All. */
 	private static final String SMS_All = "content://sms";
 
+	/** The context. */
 	private Context context;
 
+	/**
+	 * Instantiates a new SMS provider.
+	 * 
+	 * @param context
+	 *            the context
+	 */
 	public SMSProvider(Context context){
 		this.context = context;
 	}
 
+	/**
+	 * Gets the main sms details.
+	 * 
+	 * @return the main sms details
+	 */
 	public ArrayList<SMSMainDetails> getMainSMSDetails(){
-		ArrayMap<String , SMSMainDetails> data = new ArrayMap<String, SMSMainDetails>();
+		ArrayMap<String , SMSMainDetails> mapDetailsByPhoneNumber = new ArrayMap<String, SMSMainDetails>();
 		Uri allUri = Uri.parse(SMS_All);
 
 		String [] reqCols = {SMSProviderContruct.ID, SMSProviderContruct.ADDRESS, SMSProviderContruct.PERSON_ID, 
@@ -34,45 +52,77 @@ public class SMSProvider {
 
 		curser.moveToFirst();
 
+		try {
 
-		while (!curser.isAfterLast()) {
-			String addr;
-			if(curser.getString(1).startsWith("0"))
-				addr = curser.getString(1).substring(1).trim();
-			else if(curser.getString(1).startsWith("+"))
-				addr = curser.getString(1).substring(4).trim();
-			else
-				addr = curser.getString(1);
-			if(data.get(addr) == null){
-				SMSMainDetails curr = new SMSMainDetails();
-				curr.setAddress(curser.getString(1));
-				curr.setFirstMsg(curser.getString(3));
-				curr.setPersonId(curser.getInt(2));
-				curr.setDate(new Date(curser.getLong(4)));
-				curr.setCount(1);
-				data.put(addr, curr);
-			}else{
-				data.get(addr).setCount(data.get(addr).getCount() + 1);
+
+			while (!curser.isAfterLast()) {
+				String rawPhoneNumber = curser.getString(1);
+				String phoneNumber = getNormalizedPhoneNumber(rawPhoneNumber);
+
+				if (phoneNumber != null ) {
+
+
+					boolean isEntryExists = mapDetailsByPhoneNumber.get(phoneNumber) != null; 
+					if(isEntryExists){
+						mapDetailsByPhoneNumber.get(phoneNumber).setCount(mapDetailsByPhoneNumber.get(phoneNumber).getCount() + 1);						
+					}else{
+						SMSMainDetails currDetails = new SMSMainDetails();
+						currDetails.setAddress(phoneNumber);
+						currDetails.setFirstMsg(curser.getString(3));
+						currDetails.setPersonId(curser.getInt(2));
+						currDetails.setDate(new Date(curser.getLong(4)));
+						currDetails.setCount(1);
+						mapDetailsByPhoneNumber.put(phoneNumber, currDetails);
+					}
+				}
+
+				curser.moveToNext();
 			}
-			
-			curser.moveToNext();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
-		
-		ArrayList<SMSMainDetails> d = new ArrayList<SMSMainDetails>(Arrays.asList(data.values().toArray(new SMSMainDetails[0])));
+
+
+		ArrayList<SMSMainDetails> d = new ArrayList<SMSMainDetails>(Arrays.asList(mapDetailsByPhoneNumber.values().toArray(new SMSMainDetails[0])));
 		Collections.sort(d, new SMSMainDetails());
 		Collections.reverse(d);
 
 		return d;
+	}
+
+	/**
+	 * Gets the normalized phone number.
+	 * 
+	 * @param phoneNumber
+	 *            the phone number
+	 * @return the normalized phone number
+	 */
+	private String getNormalizedPhoneNumber(String phoneNumber) {
+		if (phoneNumber != null) {
+			if(phoneNumber.startsWith("0"))
+				phoneNumber = phoneNumber.substring(1).trim();
+			else if(phoneNumber.startsWith("+"))
+				phoneNumber = phoneNumber.substring(4).trim();	
+
+			phoneNumber = "0"+phoneNumber;
+		}
+		return phoneNumber;
 	} 
 
+	/**
+	 * Gets the SMS details.
+	 * 
+	 * @param addres
+	 *            the addres
+	 * @return the SMS details
+	 */
 	public ArrayList<SMSDetails> getSMSDetails(String addres){
 		if(addres.startsWith("0"))
 			addres = addres.substring(1).trim();
 		else if(addres.startsWith("+"))
 			addres = addres.substring(4).trim();
-		
-		
+
+
 		ArrayList<SMSDetails> data = new ArrayList<SMSDetails>();
 		Uri allUri = Uri.parse(SMS_All);
 
@@ -92,10 +142,10 @@ public class SMSProvider {
 			curr.setBody(curser.getString(2));
 			curr.setType(curser.getInt(1));
 			data.add(curr);
-			
+
 			curser.moveToNext();
 		}
-				
+
 		return data;
 	}
 }

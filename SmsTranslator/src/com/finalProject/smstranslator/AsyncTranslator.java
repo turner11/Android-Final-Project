@@ -1,7 +1,7 @@
 package com.finalProject.smstranslator;
 
 import android.os.AsyncTask;
-import android.widget.Toast;
+
 /**
  * 
  * A class for getting a translation in am asynchronous manner
@@ -10,6 +10,8 @@ import android.widget.Toast;
 public class AsyncTranslator extends AsyncTask<Object, Integer, String> {
 
 	public static final boolean DEV_MODE = true;
+	
+	IOnTranslationCompleted _onTranslationCompleted;
 	
 	protected void onPreExecute()
 	{
@@ -26,7 +28,7 @@ public class AsyncTranslator extends AsyncTask<Object, Integer, String> {
 	@Override
 	protected void onPostExecute(String result)
 	{
-		Toast.makeText(MainActivity.getAppContext(), result, Toast.LENGTH_LONG).show();
+		this._onTranslationCompleted.onTranslationCompleted(result);		
 	}
 
 	@Override
@@ -35,11 +37,13 @@ public class AsyncTranslator extends AsyncTask<Object, Integer, String> {
 		 * 0 Expression to translate
 		 * 1 The language symbol to translate from.
 		 * 2 The language symbol to translate to.
+		 * 3 An instance of IOnTranslationCompleted
 		 */
 		String expression = (String)args[0];
 				
 		String sourcelanguageSymbol =(String )args[1];
 		String targetLanguageSymbol =(String )args[2];
+		this._onTranslationCompleted = (IOnTranslationCompleted)args[3];
 		
 		String retVal;
 		try {
