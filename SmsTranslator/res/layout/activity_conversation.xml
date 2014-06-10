@@ -59,7 +59,8 @@
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/conversationList"
-        android:src="@drawable/send" />
+        android:src="@drawable/send" 
+        android:onClick="sendSMS"/>
 
     <ImageButton
         android:id="@+id/Button01"
@@ -67,6 +68,7 @@
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/button1"
-        android:src="@drawable/translate" />
+        android:src="@drawable/translate" 
+        android:onClick="translate" />
 
 </RelativeLayout>

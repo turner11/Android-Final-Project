@@ -5,6 +5,7 @@ import com.finalProject.smstranslator.SMSHalper.*;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -41,6 +42,13 @@ public class ConversationActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.conversation, menu);
 		return true;
+	}
+	
+	public void translate(View view){
+	}
+	
+	public void sendSMS(View view){
+	
 	}
 
 }
