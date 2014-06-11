@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ConversationActivity" >
+    tools:context=".ConversationActivity" 
+    android:background="@drawable/bg">
 
     <EditText
         android:id="@+id/txbMessage"
@@ -23,8 +24,8 @@
         android:layout_above="@+id/txbMessage"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/tv_address"
-        android:background="@android:color/white"
         android:divider="@null"
+        android:background="@android:color/transparent"
         android:dividerHeight="0dp" >
     </ListView>
 
