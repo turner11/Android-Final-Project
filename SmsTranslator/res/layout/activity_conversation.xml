@@ -14,7 +14,8 @@
         android:layout_toLeftOf="@+id/btnSend"
         android:ems="10"
         android:inputType="textMultiLine"
-        android:lines="4" >
+        android:lines="4"
+        android:gravity="top">
     </EditText>
 
     <ListView
