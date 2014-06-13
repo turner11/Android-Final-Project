@@ -47,13 +47,11 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 			@Override
 			public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
 				
-				//SMSDetails smsDetails = (SMSDetails)lv.getItemAtPosition(position);				
-				
-				TextView txbBody = (TextView)view.findViewById(R.id.tv_body);
-				String txt = (String) txbBody.getText();
-				triggerTranslation(txbBody, txt);
-			       
-			    // Toast.makeText(getBaseContext(),"Click!",Toast.LENGTH_SHORT).show();
+				Object o = lv.getItemAtPosition(position);
+				Object txbBody = adapter.findViewById(R.id.tv_body)
+				TextView body = (TextView) row.findViewById(R.id.tv_body);
+			       //prestationEco str=(prestationEco)o;//As you are using Default String Adapter
+			       Toast.makeText(getBaseContext(),"Click!"/*str.getTitle()*/,Toast.LENGTH_SHORT).show();
 				return false;
 			}
 	        

@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="">
-		<item value="TRUE" key="org.eclipse.jdt.search.resultpage.limit_enabled"/>
-		<item value="1000" key="org.eclipse.jdt.search.resultpage.limit"/>
-	</section>
-	<section name="">
 		<item value="1000" key="org.eclipse.search.resultpage.limit"/>
 		<item value="TRUE" key="org.eclipse.jdt.search.resultpage.limit_enabled"/>
 		<item value="1000" key="org.eclipse.jdt.search.resultpage.limit"/>
@@ -13,11 +9,16 @@
 		<item value="TRUE" key="org.eclipse.jdt.search.resultpage.limit_enabled"/>
 		<item value="1000" key="org.eclipse.jdt.search.resultpage.limit"/>
 	</section>
+	<section name="">
+		<item value="1000" key="org.eclipse.search.resultpage.limit"/>
+		<item value="TRUE" key="org.eclipse.jdt.search.resultpage.limit_enabled"/>
+		<item value="1000" key="org.eclipse.jdt.search.resultpage.limit"/>
+	</section>
 	<section name="DialogBounds_SearchDialog">
-		<item value="618" key="DIALOG_WIDTH"/>
+		<item value="651" key="DIALOG_WIDTH"/>
 		<item value="99" key="DIALOG_Y_ORIGIN"/>
-		<item value="535" key="DIALOG_HEIGHT"/>
 		<item value="484" key="DIALOG_X_ORIGIN"/>
+		<item value="510" key="DIALOG_HEIGHT"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="Search">
@@ -43,12 +44,23 @@
 		<item value="false" key="CASE_SENSITIVE"/>
 		<item value="false" key="REG_EX_SEARCH"/>
 		<item value="false" key="SEARCH_DERIVED"/>
-		<item value="3" key="HISTORY_SIZE"/>
+		<item value="4" key="HISTORY_SIZE"/>
+		<section name="HISTORY2">
+			<item value="false" key="isRegExSearch"/>
+			<item value="syncFrequency" key="textPattern"/>
+			<item value="0" key="scope"/>
+			<item value="true" key="ignoreCase"/>
+			<list key="fileNamePatterns">
+				<item value="*"/>
+			</list>
+			<list key="workingSets">
+			</list>
+		</section>
 		<section name="EXTENSIONS">
 			<item value="*.xml" key="1"/>
 			<item value="*" key="0"/>
 		</section>
-		<section name="HISTORY2">
+		<section name="HISTORY3">
 			<item value="false" key="isRegExSearch"/>
 			<item value="once a" key="textPattern"/>
 			<item value="0" key="scope"/>
@@ -61,7 +73,7 @@
 		</section>
 		<section name="HISTORY0">
 			<item value="false" key="isRegExSearch"/>
-			<item value="prefSyncFrequency" key="textPattern"/>
+			<item value="TRANSLATION FAILED" key="textPattern"/>
 			<item value="0" key="scope"/>
 			<item value="true" key="ignoreCase"/>
 			<list key="fileNamePatterns">
@@ -72,7 +84,7 @@
 		</section>
 		<section name="HISTORY1">
 			<item value="false" key="isRegExSearch"/>
-			<item value="syncFrequency" key="textPattern"/>
+			<item value="prefSyncFrequency" key="textPattern"/>
 			<item value="0" key="scope"/>
 			<item value="true" key="ignoreCase"/>
 			<list key="fileNamePatterns">

@@ -47,9 +47,8 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 			@Override
 			public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
 				
-				//SMSDetails smsDetails = (SMSDetails)lv.getItemAtPosition(position);				
-				
-				TextView txbBody = (TextView)view.findViewById(R.id.tv_body);
+				Object o = lv.getItemAtPosition(position);
+				TextView txbBody = (TextView)adapter.findViewById(R.id.tv_body);
 				String txt = (String) txbBody.getText();
 				triggerTranslation(txbBody, txt);
 			       

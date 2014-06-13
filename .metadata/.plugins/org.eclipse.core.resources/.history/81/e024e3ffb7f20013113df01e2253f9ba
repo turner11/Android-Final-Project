@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -16,7 +14,7 @@ import android.widget.Toast;
 
 
 /**
- * The Class ConversationActivity for viewing conversations.
+ * The Class ConversationActivity for viewig conversations.
  */
 public class ConversationActivity extends Activity implements IOnTranslationCompleted{
 
@@ -38,26 +36,9 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 		SMSProvider provider = new SMSProvider(this);
 		SMSAdapter adapter = new SMSAdapter(this, provider.getSMSDetails(address));
 
-		final ListView lv = (ListView) findViewById(R.id.conversationList);
+		ListView lv = (ListView) findViewById(R.id.conversationList);
 		lv.setAdapter(adapter);
 		lv.setSelection(adapter.getCount() - 1);
-		
-		lv.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-			@Override
-			public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
-				
-				//SMSDetails smsDetails = (SMSDetails)lv.getItemAtPosition(position);				
-				
-				TextView txbBody = (TextView)view.findViewById(R.id.tv_body);
-				String txt = (String) txbBody.getText();
-				triggerTranslation(txbBody, txt);
-			       
-			    // Toast.makeText(getBaseContext(),"Click!",Toast.LENGTH_SHORT).show();
-				return false;
-			}
-	        
-	    });
 
 		TextView add = (TextView) findViewById(R.id.tv_address);
 

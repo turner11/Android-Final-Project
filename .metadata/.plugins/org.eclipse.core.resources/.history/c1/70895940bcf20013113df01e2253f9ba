@@ -54,7 +54,7 @@ public class AsyncTranslator extends AsyncTask<Object, Integer, String> {
 			retVal = "Translation Failed";
 
 			if (DEV_MODE) {
-				retVal = retVal +": " + e.getMessage();
+				retVal = retVal +" " + e.getMessage();
 			}
 		}
 		return retVal;
