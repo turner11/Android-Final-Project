@@ -10,7 +10,7 @@
     <string name="pref_LangFrom">Language to translate from</string>
     <string name="pref_LangFrom_summary">Set the Language to translate from</string>
     <string name="pref_LangTo_Key">prefToKey</string>
-    <string name="pref_LangTo">Language to translate text to</string>
+    <string name="pref_LangTo">Language to translate to</string>
     <string name="pref_LangTo_summary">Set the Language to translate to</string>
     <string name="new_message">New Message</string>
     <string name="user_image">User image</string>

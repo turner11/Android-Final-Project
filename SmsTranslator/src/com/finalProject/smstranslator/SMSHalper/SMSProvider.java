@@ -138,6 +138,7 @@ public class SMSProvider {
 
 		while (!curser.isAfterLast()) {
 			SMSDetails curr = new SMSDetails();
+			curr.setId(curser.getInt(0));
 			curr.setDate(new Date(curser.getLong(3)));
 			curr.setBody(curser.getString(2));
 			curr.setType(curser.getInt(1));

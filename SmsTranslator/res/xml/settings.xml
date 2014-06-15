@@ -4,23 +4,23 @@
     <PreferenceCategory android:title="@string/pref_update_setting" >
         <ListPreference
             android:key="@string/pref_LangFrom_Key"
-            android:summary="@string/pref_LangFrom_summary"
             android:title="@string/pref_LangFrom" />
         <ListPreference
             android:key="@string/pref_LangTo_Key"
-            android:summary="@string/pref_LangTo_summary"
             android:title="@string/pref_LangTo" />
         
         <CheckBoxPreference
                 android:key="@string/pref_Auto_LangFromKey"                
                 android:title="@string/pref_Auto_LangFrom"    
-                android:summary="@string/pref_Auto_LangFrom_Summary"          
+                android:summary="@string/pref_Auto_LangFrom_Summary"     
+                android:defaultValue="false"     
           />
           
           <CheckBoxPreference
                 android:key="@string/pref_Auto_LangTo_Key"                
                 android:title="@string/pref_Auto_LangTo"            
-                android:summary="@string/pref_Auto_LangTo_Summary"  
+                android:summary="@string/pref_Auto_LangTo_Summary"
+                android:defaultValue="false"  
           />
     </PreferenceCategory>
 

@@ -2,10 +2,13 @@ package com.finalProject.smstranslator;
 
 import java.util.ArrayList;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener{
 
 	ListPreference _lpFrom;
 	ListPreference _lpTo;
@@ -22,6 +25,9 @@ public class SettingsActivity extends PreferenceActivity {
 	    //android:entries="@array/syncFrequency"
 	    //android:entryValues="@array/syncFrequencyValues"
 		this.InitListPreferences();
+		this.getPreferenceScreen().getSharedPreferences()
+	      .registerOnSharedPreferenceChangeListener(this);
+	    
 
 	}
 	
@@ -49,11 +55,25 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		this._lpFrom.setEntries(names.clone());
 		this._lpFrom.setEntryValues(symbols.clone());
+		this._lpFrom.setSummary(this._lpFrom.getEntry());
 		
 		this._lpTo.setEntries(names.clone());
 		this._lpTo.setEntryValues(symbols.clone());
+		this._lpTo.setSummary(this._lpTo.getEntry());
 		
 	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,String key) {
+		@SuppressWarnings("deprecation")
+		Preference pref = findPreference(key);
+
+	    if (pref instanceof ListPreference) {
+	        ListPreference listPref = (ListPreference) pref;
+	        pref.setSummary(listPref.getEntry());
+	    }
+	}
+	
 	
 	
 
