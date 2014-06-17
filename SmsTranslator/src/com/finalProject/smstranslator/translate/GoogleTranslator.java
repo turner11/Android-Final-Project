@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
+// TODO: Auto-generated Javadoc
 /**
  * 
  * A class for retrieving translation from google translate web service.
@@ -17,9 +18,7 @@ import java.net.URLEncoder;
 public class GoogleTranslator {
 
 
-	/** 
-	 The template for translation requests from google 
-	 */
+	/**   	 The template for translation requests from google. */
 	final static String GOOGLE_TRANSLATE_URL_TEMPLATE = //"http://translate.google.com/translate_a/t?client=p&hl=%s&sl=%s&tl=%s&ie=UTF-8&oe=UTF-8&multires=1&oc=2&otf=1&ssel=0&tsel=0&pc=1&sc=1&q=%s";
 	"http://translate.google.com.tw/translate_a/t?client=t&hl=en&sl=%s&tl=%s&ie=UTF-8&oe=UTF-8&multires=1&oc=1&otf=2&ssel=0&tsel=0&sc=1&q=%s";
 
@@ -27,16 +26,16 @@ public class GoogleTranslator {
 
 	//"http://translate.google.com/translate_a/t?client=p&text={0}&hl={1}&sl=en&tl={2}&ie=UTF-8&oe=UTF-8&multires=1&otf=2&ssel=2&tsel=2&sc=1";  
 
-	/** 
-	 Translates a sentence.
-
-	 @param expression The sentence.
-	 @param source The language to translate from.
-	 @param target The language to translate to.
-	 @param encoding The encoding.
-	 @return The translation
-	 * @throws IOException 
-	 * @throws URISyntaxException 
+	/**
+	 *  
+	 * 	 Translates a sentence.
+	 *
+	 * @param expression The sentence.
+	 * @param languageFromSymbol the language from symbol
+	 * @param languageToSymbol the language to symbol
+	 * @return The translation
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws URISyntaxException the URI syntax exception
 	 */
 	public static String TranslateExpression(String expression, String languageFromSymbol, String languageToSymbol) throws IOException, URISyntaxException 
 	{
@@ -60,10 +59,12 @@ public class GoogleTranslator {
 		return trans;
 	}
 
-	/** 
-	 Gets the translation from googles reply.
-
-	 @param reply Googls reply.
+	/**
+	 *  
+	 * 	 Gets the translation from googles reply.
+	 *
+	 * @param reply Googls reply.
+	 * @return the string
 	 */
 	private static String GetTranslationFromReply(String reply)
 	{
@@ -76,15 +77,16 @@ public class GoogleTranslator {
 		return translation;
 	}
 
-	/** 
-Gets the URL by symbols.
-
-@param expression The expression to translate.
-@param sourceSymbol The symbol of source language.
-@param targetSymbol The symbol of to source language.
-@return the url
-	 * @throws URISyntaxException 
-	 * @throws IOException 
+	/**
+	 *  
+	 * Gets the URL by symbols.
+	 *
+	 * @param expression The expression to translate.
+	 * @param sourceSymbol The symbol of source language.
+	 * @param targetSymbol The symbol of to source language.
+	 * @return the url
+	 * @throws URISyntaxException the URI syntax exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private static String GetUrlBySymbols(String expression, String sourceSymbol, String targetSymbol) throws URISyntaxException, IOException
 	{

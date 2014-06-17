@@ -13,12 +13,23 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SettingsActivity.
+ */
 public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener{
 
+	/** The _lp from. */
 	ListPreference _lpFrom;
+	
+	/** The _lp to. */
 	ListPreference _lpTo;
 	
-	/** Called when the activity is first created. */
+	/**
+	 *  Called when the activity is first created.
+	 *
+	 * @param savedInstanceState the saved instance state
+	 */
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +79,9 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see android.content.SharedPreferences.OnSharedPreferenceChangeListener#onSharedPreferenceChanged(android.content.SharedPreferences, java.lang.String)
+	 */
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,String key) {
 		@SuppressWarnings("deprecation")

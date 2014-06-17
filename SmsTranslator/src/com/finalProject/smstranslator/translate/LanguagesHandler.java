@@ -12,11 +12,21 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LanguagesHandler.
+ */
 public class LanguagesHandler {
 
 	// We don't use namespaces
+	/** The Constant ns. */
 	private static final String ns = null;
 
+	/**
+	 * Gets the languages.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<Language> GetLanguages()  {
 		try{
 			Resources res = MainActivity.getAppContext().getResources();
@@ -43,6 +53,14 @@ public class LanguagesHandler {
 	}
 
 
+	/**
+	 * Read feed.
+	 *
+	 * @param parser the parser
+	 * @return the array list
+	 * @throws XmlPullParserException the xml pull parser exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private ArrayList<Language> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
 		ArrayList<Language> languages = new ArrayList<Language>();
 
@@ -64,6 +82,14 @@ public class LanguagesHandler {
 
 	// Parses the contents of an Language. If it encounters an element, hands it off
 	// to their respective "read" methods for processing. Otherwise, skips the tag.
+	/**
+	 * Read entry.
+	 *
+	 * @param parser the parser
+	 * @return the language
+	 * @throws XmlPullParserException the xml pull parser exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private Language readEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, ns, "language");
 
@@ -97,6 +123,15 @@ public class LanguagesHandler {
 	}
 
 	// Processes title tags in the feed.
+	/**
+	 * Read element.
+	 *
+	 * @param parser the parser
+	 * @param tagName the tag name
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws XmlPullParserException the xml pull parser exception
+	 */
 	private String readElement(XmlPullParser parser, String tagName) throws IOException, XmlPullParserException {
 		parser.require(XmlPullParser.START_TAG, ns, tagName);
 		String title = readText(parser);
@@ -104,6 +139,13 @@ public class LanguagesHandler {
 		return title;
 	}
 
+	/**
+	 * Skip.
+	 *
+	 * @param parser the parser
+	 * @throws XmlPullParserException the xml pull parser exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
 		if (parser.getEventType() != XmlPullParser.START_TAG) {
 			throw new IllegalStateException();
@@ -122,6 +164,14 @@ public class LanguagesHandler {
 	}
 
 	// For the tags title and summary, extracts their text values.
+	/**
+	 * Read text.
+	 *
+	 * @param parser the parser
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws XmlPullParserException the xml pull parser exception
+	 */
 	private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
 		String result = "";
 		if (parser.next() == XmlPullParser.TEXT) {

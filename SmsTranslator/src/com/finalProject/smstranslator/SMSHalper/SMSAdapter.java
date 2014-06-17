@@ -12,17 +12,33 @@ import android.widget.TextView;
 
 import com.finalProject.smstranslator.R;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SMSAdapter.
+ */
 public class SMSAdapter extends ArrayAdapter<SMSDetails> {
 
+	/** The context. */
 	private Context context;
+	
+	/** The data. */
 	private ArrayList<SMSDetails> data;
 	
+	/**
+	 * Instantiates a new SMS adapter.
+	 *
+	 * @param context the context
+	 * @param objects the objects
+	 */
 	public SMSAdapter(Context context, ArrayList<SMSDetails> objects) {
 		super(context, R.layout.conversation_item_layout, objects);
 		this.context = context;
 		this.data = objects;
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater infalter = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

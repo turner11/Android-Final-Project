@@ -15,10 +15,9 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.telephony.TelephonyManager;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * A class for handling retrieval of default languages
- *
+ * A class for handling retrieval of default languages.
  */
 public class LanguageLogics {
 	/**
@@ -57,6 +56,11 @@ public class LanguageLogics {
 		return langSymbol;
 	}
 
+	/**
+	 * Gets the location from gps.
+	 *
+	 * @return the string
+	 */
 	@SuppressLint("InlinedApi")
 	private static String GetLocationFromGps() {
 
@@ -97,6 +101,11 @@ public class LanguageLogics {
 		return langSymbol;
 	}
 
+	/**
+	 * Gets the country by sim carrier.
+	 *
+	 * @return the country by sim carrier
+	 */
 	private static String getCountryBySimCarrier() {
 		Context context = MainActivity.getAppContext();	
 

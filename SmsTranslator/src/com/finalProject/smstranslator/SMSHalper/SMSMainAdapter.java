@@ -13,17 +13,33 @@ import android.widget.TextView;
 
 import com.finalProject.smstranslator.R;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SMSMainAdapter.
+ */
 public class SMSMainAdapter extends ArrayAdapter<SMSMainDetails> {
 
+	/** The context. */
 	private Context context;
+	
+	/** The data. */
 	private ArrayList<SMSMainDetails> data;
 	
+	/**
+	 * Instantiates a new SMS main adapter.
+	 *
+	 * @param context the context
+	 * @param objects the objects
+	 */
 	public SMSMainAdapter(Context context, ArrayList<SMSMainDetails> objects) {
 		super(context, R.layout.main_sms_layout, objects);
 		this.context = context;
 		this.data = objects;
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater infalter = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -45,6 +61,12 @@ public class SMSMainAdapter extends ArrayAdapter<SMSMainDetails> {
 		return row;
 	}
 
+	/**
+	 * Gets the user name.
+	 *
+	 * @param addres the addres
+	 * @return the user name
+	 */
 	private String getUserName(String addres) {
 		ContactHelper ch = new ContactHelper(context);
 		String name = ch.getContactName(addres);

@@ -19,12 +19,24 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MainActivity.
+ */
 public class MainActivity extends Activity {
 
+	/** The smsrecevid. */
 	public static String SMSRECEVID="com.finalProject.smstranslator.SMSRECEVEDINFO";
+	
+	/** The context. */
 	private static Context context;
+	
+	/** The receiver. */
 	private BroadcastReceiver receiver;
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,6 +52,9 @@ public class MainActivity extends Activity {
 		};
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onResume()
+	 */
 	@Override
 	protected void onResume() {
 		registerReceiver(receiver, new IntentFilter(MainActivity.SMSRECEVID));
@@ -47,18 +62,27 @@ public class MainActivity extends Activity {
 		super.onResume();
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onPause()
+	 */
 	@Override
 	protected void onPause() {
 		unregisterReceiver(receiver);
 		super.onPause();
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -70,16 +94,29 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+	/**
+	 * Gets the app context.
+	 *
+	 * @return the app context
+	 */
 	public static Context getAppContext() {
 		return context;
 	}
 	
+	/**
+	 * On item clicked.
+	 *
+	 * @param address the address
+	 */
 	private void onItemClicked(String address){
 		Intent intent = new Intent(this, ConversationActivity.class);
 		intent.putExtra("address", address);
 		startActivity(intent);
 	}
 	
+	/**
+	 * Update view.
+	 */
 	private void updateView(){
 		SMSProvider provider = new SMSProvider(this);
 		SMSMainAdapter ad = new SMSMainAdapter(this, provider.getMainSMSDetails());

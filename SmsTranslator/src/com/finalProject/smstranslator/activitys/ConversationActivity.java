@@ -16,6 +16,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.telephony.SmsManager;
 import android.util.SparseArray;
 import android.view.Menu;
@@ -29,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ConversationActivity for viewing conversations.
  */
@@ -36,10 +42,59 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 
 	/** The view that will be translated. */
 	View _translatedView;
+	
+	/** The _loading. */
 	ProgressDialog _loading;
+	
+	/** The _translated sms. */
 	SparseArray<SMSDetails> _translatedSms;
+	
+	/** The _current address. */
 	String _currentAddress;
+	
+	/** The receiver. */
 	BroadcastReceiver receiver;
+	
+	/** The _cur translated item. */
+	SMSDetails _curTranslatedItem;
+
+
+	/** The m sensor manager. */
+	private SensorManager mSensorManager;
+	
+	/** The m accel. */
+	private float mAccel; // acceleration apart from gravity
+	
+	/** The m accel current. */
+	private float mAccelCurrent; // current acceleration including gravity
+	
+	/** The m accel last. */
+	private float mAccelLast; // last acceleration including gravity
+
+	/** The m sensor listener. */
+	private final SensorEventListener mSensorListener = new SensorEventListener() {
+		@Override
+		public void onSensorChanged(SensorEvent se) {
+			float x = se.values[0];
+			float y = se.values[1];
+			float z = se.values[2];
+			mAccelLast = mAccelCurrent;
+			mAccelCurrent = (float) Math.sqrt((double) (x*x + y*y + z*z));
+			float delta = mAccelCurrent - mAccelLast;
+			mAccel = mAccel * 0.9f + delta; // perform low-cut filter
+			if (mAccel > 20) {
+				Toast.makeText(getApplicationContext(), "Translations cleared", Toast.LENGTH_LONG).show(); 
+				_translatedSms.clear();
+				updateConversation();
+			}
+		}
+
+		@Override
+		public void onAccuracyChanged(Sensor sensor, int accuracy) {
+			// TODO Auto-generated method stub
+
+		}
+	};
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -69,7 +124,14 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 				updateConversation();
 			}
 		};
+		_translatedSms = new SparseArray<SMSDetails>();
 
+		//shake
+		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+		mAccel = 0.00f;
+		mAccelCurrent = SensorManager.GRAVITY_EARTH;
+		mAccelLast = SensorManager.GRAVITY_EARTH;
 	}
 
 	/* (non-Javadoc)
@@ -81,27 +143,58 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
 	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case R.id.action_settings:
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_settings:
+			Intent intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onResume()
+	 */
 	@Override
 	protected void onResume() {
 		registerReceiver(receiver, new IntentFilter(MainActivity.SMSRECEVID));
+		mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
 		super.onResume();
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onPause()
+	 */
 	@Override
 	protected void onPause() {
+		mSensorManager.unregisterListener(mSensorListener);
 		unregisterReceiver(receiver);
 		super.onPause();
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onConfigurationChanged(android.content.res.Configuration)
+	 */
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+
+		ListView lv = (ListView) findViewById(R.id.conversationList);
+		SMSDetails currentSMS;
+
+		for(int i = 0; i < lv.getChildCount(); i++){
+			currentSMS = (SMSDetails) lv.getItemAtPosition(i);
+			if(_translatedSms.get(currentSMS.getId()) != null){
+				TextView txbBody = (TextView)lv.getChildAt(i).findViewById(R.id.tv_body);
+				txbBody.setText(_translatedSms.get(currentSMS.getId()).getBody());
+			}
+		}
+
 	}
 
 	/* (non-Javadoc)
@@ -120,6 +213,9 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 		else if (this._translatedView instanceof TextView) {
 			TextView textView = (TextView) this._translatedView;
 			textView.setText(result);
+
+			_curTranslatedItem.setBody(result);
+			_translatedSms.append(_curTranslatedItem.getId(), _curTranslatedItem);
 		}
 		_loading.cancel();
 	}
@@ -136,8 +232,6 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 		this.triggerTranslation(txbMessage, expression);
 	}
 
-
-
 	/**
 	 * Send sms.
 	 * 
@@ -146,7 +240,7 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 	 */
 	public void sendSMS(View view){
 		final ProgressDialog prog = ProgressDialog.show(ConversationActivity.this, "", "Sending...", true);
-		
+
 		EditText txbMessage = (EditText) findViewById(R.id.txbMessage);
 		String expression = txbMessage.getText().toString();
 		SmsManager sms = SmsManager.getDefault();
@@ -230,6 +324,9 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 		asyncTrnaslator.execute(expression,symbolFrom, symbolTo, this);
 	}
 
+	/**
+	 * Update conversation.
+	 */
 	private void updateConversation(){
 
 		SMSProvider provider = new SMSProvider(this);
@@ -244,7 +341,7 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 			@Override
 			public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
 
-				//SMSDetails smsDetails = (SMSDetails)lv.getItemAtPosition(position);				
+				_curTranslatedItem = (SMSDetails) adapter.getItemAtPosition(position);				
 
 				TextView txbBody = (TextView)view.findViewById(R.id.tv_body);
 				String txt = (String) txbBody.getText();

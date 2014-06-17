@@ -6,8 +6,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SMSReciver.
+ */
 public class SMSReciver extends BroadcastReceiver{
 
+	/* (non-Javadoc)
+	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
+	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Intent broad = new Intent();

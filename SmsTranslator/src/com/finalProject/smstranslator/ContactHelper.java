@@ -5,12 +5,30 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ContactHelper.
+ */
 public class ContactHelper {
 
+	/** The context. */
 	private Context context;
+	
+	/**
+	 * Instantiates a new contact helper.
+	 *
+	 * @param context the context
+	 */
 	public ContactHelper(Context context) {
 		this.context = context;
 	}
+	
+	/**
+	 * Gets the contact name.
+	 *
+	 * @param number the number
+	 * @return the contact name
+	 */
 	public String getContactName(String number) {
 
 		String name = null;

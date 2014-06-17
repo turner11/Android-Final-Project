@@ -1,68 +1,116 @@
 package com.finalProject.smstranslator.translate;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Language.
+ */
 @SuppressWarnings("rawtypes")
 public class Language implements java.lang.Comparable
 {
 
+		/** The _symbol. */
 		private String _symbol;
-		/** 
-		 Gets the language symbol.
-		*/
+		
+		/**
+		 *  
+		 * 		 Gets the language symbol.
+		 *
+		 * @return the symbol
+		 */
 		public final String getSymbol()
 		{
 			return _symbol;
 		}
+		
+		/**
+		 * Sets the symbol.
+		 *
+		 * @param value the new symbol
+		 */
 		public final void setSymbol(String value)
 		{
 			this._symbol = value;
 		}
 
+		/** The _native name. */
 		private String _nativeName;
-		/** 
-		 Gets the native name of the language.
-		 
-		 <value>
-		 The the native name of the language.
-		 </value>
-		*/
+		
+		/**
+		 *  
+		 * 		 Gets the native name of the language.
+		 * 		 
+		 * 		 <value>
+		 * 		 The the native name of the language.
+		 * 		 </value>
+		 *
+		 * @return the native name
+		 */
 		public final String getNativeName()
 		{
 			return _nativeName;
 		}
+		
+		/**
+		 * Sets the native name.
+		 *
+		 * @param value the new native name
+		 */
 		public final void setNativeName(String value)
 		{
 			this._nativeName = value;
 		}
 
+		/** The _english name. */
 		private String _englishName;
-		/** 
-		 Gets the English name of the language.
-		 
-		 <value>
-		 The the English name of the language.
-		 </value>
-		*/
+		
+		/**
+		 *  
+		 * 		 Gets the English name of the language.
+		 * 		 
+		 * 		 <value>
+		 * 		 The the English name of the language.
+		 * 		 </value>
+		 *
+		 * @return the english name
+		 */
 		public final String getEnglishName()
 		{
 			return _englishName;
 		}
+		
+		/**
+		 * Sets the english name.
+		 *
+		 * @param value the new english name
+		 */
 		public final void setEnglishName(String value)
 		{
 			this._englishName = value;
 		}
 
+		/** The _is right to left. */
 		private boolean _isRightToLeft;
-		/** 
-		 Gets or sets a value indicating whether this language is right to left.
-		 
-		 <value>
-		 	<b>true</b> if this language is right to left; otherwise, <c>false</c>.
-		 </value>
-		*/
+		
+		/**
+		 *  
+		 * 		 Gets or sets a value indicating whether this language is right to left.
+		 * 		 
+		 * 		 <value>
+		 * 		 	<b>true</b> if this language is right to left; otherwise, <c>false</c>.
+		 * 		 </value>
+		 *
+		 * @return the checks if is right to left
+		 */
 		public final boolean getIsRightToLeft()
 		{
 			return _isRightToLeft;
 		}
+		
+		/**
+		 * Sets the checks if is right to left.
+		 *
+		 * @param value the new checks if is right to left
+		 */
 		public final void setIsRightToLeft(boolean value)
 		{
 			_isRightToLeft = value;
@@ -131,6 +179,9 @@ public class Language implements java.lang.Comparable
 
 
 
+		/* (non-Javadoc)
+		 * @see java.lang.Comparable#compareTo(java.lang.Object)
+		 */
 		public final int compareTo(Object obj)
 		{
 			Language other = (Language)((obj instanceof Language) ? obj : null);
