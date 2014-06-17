@@ -1,6 +1,6 @@
 package com.finalProject.smstranslator.SMSHalper;
 
-import com.finalProject.smstranslator.MainActivity;
+import com.finalProject.smstranslator.activitys.MainActivity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

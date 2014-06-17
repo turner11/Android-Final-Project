@@ -1,5 +1,10 @@
-package com.finalProject.smstranslator;
+package com.finalProject.smstranslator.activitys;
 
+import com.finalProject.smstranslator.translate.AsyncTranslator;
+import com.finalProject.smstranslator.ContactHelper;
+import com.finalProject.smstranslator.translate.IOnTranslationCompleted;
+import com.finalProject.smstranslator.PreferencesManager;
+import com.finalProject.smstranslator.R;
 import com.finalProject.smstranslator.SMSHalper.*;
 
 import android.net.Uri;

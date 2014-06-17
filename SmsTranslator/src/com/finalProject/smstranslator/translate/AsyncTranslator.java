@@ -1,4 +1,4 @@
-package com.finalProject.smstranslator;
+package com.finalProject.smstranslator.translate;
 
 import android.os.AsyncTask;
 

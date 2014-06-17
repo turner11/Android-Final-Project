@@ -1,5 +1,6 @@
-package com.finalProject.smstranslator;
+package com.finalProject.smstranslator.translate;
 
+import com.finalProject.smstranslator.activitys.MainActivity;
 
 import java.util.HashMap;
 import java.util.List;

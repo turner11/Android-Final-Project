@@ -1,4 +1,4 @@
-package com.finalProject.smstranslator;
+package com.finalProject.smstranslator.translate;
 
 @SuppressWarnings("rawtypes")
 public class Language implements java.lang.Comparable

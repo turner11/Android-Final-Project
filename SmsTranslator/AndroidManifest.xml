@@ -23,7 +23,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.finalProject.smstranslator.MainActivity"
+            android:name="com.finalProject.smstranslator.activitys.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,11 +34,11 @@
 
         <!-- <activity android:name="com.finalProject.smstranslator.SettingsActivity"></activity> -->
         <activity
-            android:name="com.finalProject.smstranslator.SettingsActivity"
+            android:name="com.finalProject.smstranslator.activitys.SettingsActivity"
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
-            android:name="com.finalProject.smstranslator.ConversationActivity"
+            android:name="com.finalProject.smstranslator.activitys.ConversationActivity"
             android:label="@string/title_activity_conversation"
             android:windowSoftInputMode="stateHidden" >
         </activity>

@@ -1,9 +1,13 @@
-package com.finalProject.smstranslator;
+package com.finalProject.smstranslator.translate;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+
+import com.finalProject.smstranslator.R;
+import com.finalProject.smstranslator.activitys.MainActivity;
+
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 

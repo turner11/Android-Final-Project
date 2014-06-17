@@ -1,6 +1,7 @@
-package com.finalProject.smstranslator;
+package com.finalProject.smstranslator.activitys;
 
 
+import com.finalProject.smstranslator.R;
 import com.finalProject.smstranslator.SMSHalper.SMSProvider;
 import com.finalProject.smstranslator.SMSHalper.SMSMainAdapter;
 import com.finalProject.smstranslator.SMSHalper.SMSMainDetails;

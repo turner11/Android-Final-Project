@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.finalProject.smstranslator.activitys.MainActivity;
+import com.finalProject.smstranslator.translate.LanguageLogics;
+
 public class PreferencesManager {
 
 	static SharedPreferences _prefs;

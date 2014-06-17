@@ -1,6 +1,11 @@
-package com.finalProject.smstranslator;
+package com.finalProject.smstranslator.activitys;
 
 import java.util.ArrayList;
+
+import com.finalProject.smstranslator.translate.Language;
+import com.finalProject.smstranslator.translate.LanguagesHandler;
+import com.finalProject.smstranslator.R;
+
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;

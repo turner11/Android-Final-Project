@@ -1,4 +1,4 @@
-package com.finalProject.smstranslator;
+package com.finalProject.smstranslator.translate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
