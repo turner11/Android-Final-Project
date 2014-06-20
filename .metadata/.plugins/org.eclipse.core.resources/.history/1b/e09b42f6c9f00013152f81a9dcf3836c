@@ -1,0 +1,113 @@
+package com.finalProject.smstranslator.SMSHalper;
+
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.support.v4.util.ArrayMap;
+
+public class SMSProvider {
+	private static final String SMS_All = "content://sms";
+
+	private Context context;
+
+	public SMSProvider(Context context){
+		this.context = context;
+	}
+
+	public ArrayList<SMSMainDetails> getMainSMSDetails(){
+		ArrayMap<String , SMSMainDetails> mapDetailsByPhoneNumber = new ArrayMap<String, SMSMainDetails>();
+		Uri allUri = Uri.parse(SMS_All);
+
+		String [] reqCols = {SMSProviderContruct.ID, SMSProviderContruct.ADDRESS, SMSProviderContruct.PERSON_ID, 
+				SMSProviderContruct.BODY, SMSProviderContruct.DATE};
+
+		// Get Content Resolver object, which will deal with Content Provider
+		ContentResolver cr = context.getContentResolver();
+		Cursor curser = cr.query(allUri, reqCols, null, null, null);
+
+		curser.moveToFirst();
+
+		try {
+			
+
+			while (!curser.isAfterLast()) {
+				String rawPhoneNumber = curser.getString(1);
+				String phoneNumber = getNormalizedPhoneNumber(rawPhoneNumber);
+				
+				boolean isEntryExists =mapDetailsByPhoneNumber.get(phoneNumber) == null; 
+				if(!isEntryExists){
+					SMSMainDetails currDetails = new SMSMainDetails();
+					currDetails.setAddress(curser.getString(1));
+					currDetails.setFirstMsg(curser.getString(3));
+					currDetails.setPersonId(curser.getInt(2));
+					currDetails.setDate(new Date(curser.getLong(4)));
+					currDetails.setCount(1);
+					mapDetailsByPhoneNumber.put(phoneNumber, currDetails);
+				}else{
+					mapDetailsByPhoneNumber.get(phoneNumber).setCount(mapDetailsByPhoneNumber.get(phoneNumber).getCount() + 1);
+				}
+
+				curser.moveToNext();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+		ArrayList<SMSMainDetails> d = new ArrayList<SMSMainDetails>(Arrays.asList(mapDetailsByPhoneNumber.values().toArray(new SMSMainDetails[0])));
+		Collections.sort(d, new SMSMainDetails());
+		Collections.reverse(d);
+
+		return d;
+	}
+
+	private String getNormalizedPhoneNumber(String phoneNumber) {
+		if (phoneNumber != null) {
+			if(phoneNumber.startsWith("0"))
+				phoneNumber = phoneNumber.substring(1).trim();
+			else if(phoneNumber.startsWith("+"))
+				phoneNumber = phoneNumber.substring(4).trim();	
+		}
+		return phoneNumber;
+	} 
+
+	public ArrayList<SMSDetails> getSMSDetails(String addres){
+		if(addres.startsWith("0"))
+			addres = addres.substring(1).trim();
+		else if(addres.startsWith("+"))
+			addres = addres.substring(4).trim();
+
+
+		ArrayList<SMSDetails> data = new ArrayList<SMSDetails>();
+		Uri allUri = Uri.parse(SMS_All);
+
+		String [] reqCols = {SMSProviderContruct.ID, SMSProviderContruct.TYPE, 
+				SMSProviderContruct.BODY, SMSProviderContruct.DATE};
+
+		// Get Content Resolver object, which will deal with Content Provider
+		ContentResolver cr = context.getContentResolver();
+		Cursor curser = cr.query(allUri, reqCols, SMSProviderContruct.ADDRESS + " LIKE ?", new String[] { "%" + addres + "%"}, SMSProviderContruct.DATE);
+
+		curser.moveToFirst();
+
+
+		while (!curser.isAfterLast()) {
+			SMSDetails curr = new SMSDetails();
+			curr.setDate(new Date(curser.getLong(3)));
+			curr.setBody(curser.getString(2));
+			curr.setType(curser.getInt(1));
+			data.add(curr);
+
+			curser.moveToNext();
+		}
+
+		return data;
+	}
+}
