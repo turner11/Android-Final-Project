@@ -9,7 +9,6 @@ import com.finalProject.smstranslator.R;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -63,9 +62,8 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 		
 		for (int i = 0; i < langs.size(); i++) {
 			Language currLang = langs.get(i);
-			SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(MainActivity.getAppContext());
-			boolean getNativeName =prefs.getBoolean( getResources().getString(R.string.pref_Native_Name_Key), false); 
-			names[i] = getNativeName ? currLang.getNativeName(): currLang.getEnglishName();
+			
+			names[i] = currLang.getNativeName();
 			symbols[i] = currLang.getSymbol();
 		}
 		
@@ -92,9 +90,6 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	    if (pref instanceof ListPreference) {
 	        ListPreference listPref = (ListPreference) pref;
 	        pref.setSummary(listPref.getEntry());
-	    }else if(key == getResources().getString(R.string.pref_Native_Name_Key))
-	    {
-	    	InitListPreferences();
 	    }
 	}
 	

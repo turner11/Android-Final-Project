@@ -22,12 +22,7 @@
     <string name="pref_Auto_LangFrom_Summary">Choose automatically the language to translate From</string>
     
     <string name="pref_Auto_LangTo_Key">AutoPrefToKey</string>
-    <string name="pref_Auto_LangTo">Auto Choose language to</string>
+    <string name="pref_Auto_LangTo">CAuto Choose language to</string>
     <string name="pref_Auto_LangTo_Summary">Choose automatically the language to translate to</string>
-    
-    
-     <string name="pref_Native_Name_Key">NativeNameKey</string>
-    <string name="pref_Native_Name">Show language native name</string>
-    <string name="pref_Native_Name_Summary">Show the language in it\'s native name rather in English</string>
 
 </resources>

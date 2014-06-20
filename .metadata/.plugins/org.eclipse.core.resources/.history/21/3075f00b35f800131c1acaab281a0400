@@ -1,0 +1,363 @@
+package com.finalProject.smstranslator.activitys;
+
+import com.finalProject.smstranslator.translate.AsyncTranslator;
+import com.finalProject.smstranslator.ContactHelper;
+import com.finalProject.smstranslator.translate.IOnTranslationCompleted;
+import com.finalProject.smstranslator.PreferencesManager;
+import com.finalProject.smstranslator.R;
+import com.finalProject.smstranslator.SMSHalper.*;
+
+import android.net.Uri;
+import android.os.Bundle;
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.res.Configuration;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.telephony.SmsManager;
+import android.util.SparseArray;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ConversationActivity for viewing conversations.
+ */
+public class ConversationActivity extends Activity implements IOnTranslationCompleted{
+
+	/** The view that will be translated. */
+	View _translatedView;
+	
+	/** The _loading. */
+	ProgressDialog _loading;
+	
+	/** The _translated sms. */
+	SparseArray<SMSDetails> _translatedSms;
+	
+	/** The _current address. */
+	String _currentAddress;
+	
+	/** The receiver. */
+	BroadcastReceiver receiver;
+	
+	/** The _cur translated item. */
+	SMSDetails _curTranslatedItem;
+
+
+	/** The m sensor manager. */
+	private SensorManager mSensorManager;
+	
+	/** The m accel. */
+	private float mAccel; // acceleration apart from gravity
+	
+	/** The m accel current. */
+	private float mAccelCurrent; // current acceleration including gravity
+	
+	/** The m accel last. */
+	private float mAccelLast; // last acceleration including gravity
+
+	/** The m sensor listener. */
+	private final SensorEventListener mSensorListener = new SensorEventListener() {
+		@Override
+		public void onSensorChanged(SensorEvent se) {
+			float x = se.values[0];
+			float y = se.values[1];
+			float z = se.values[2];
+			mAccelLast = mAccelCurrent;
+			mAccelCurrent = (float) Math.sqrt((double) (x*x + y*y + z*z));
+			float delta = mAccelCurrent - mAccelLast;
+			mAccel = mAccel * 0.9f + delta; // perform low-cut filter
+			if (mAccel > 20) {
+				Toast.makeText(getApplicationContext(), "Translations cleared", Toast.LENGTH_LONG).show(); 
+				_translatedSms.clear();
+				updateConversation();
+			}
+		}
+
+		@Override
+		public void onAccuracyChanged(Sensor sensor, int accuracy) {
+			// TODO Auto-generated method stub
+
+		}
+	};
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_conversation);
+		Bundle extra =  getIntent().getExtras();
+		_currentAddress = extra.getString("address");
+
+		updateConversation();
+
+		TextView add = (TextView) findViewById(R.id.tv_address);
+
+		ContactHelper ch = new ContactHelper(this);
+		String name = ch.getContactName(_currentAddress);
+		if(name == null)
+			add.setText(_currentAddress);
+		else
+			add.setText(name);
+
+		receiver = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				updateConversation();
+			}
+		};
+		_translatedSms = new SparseArray<SMSDetails>();
+
+		//shake
+		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+		mAccel = 0.00f;
+		mAccelCurrent = SensorManager.GRAVITY_EARTH;
+		mAccelLast = SensorManager.GRAVITY_EARTH;
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_settings:
+			Intent intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onResume()
+	 */
+	@Override
+	protected void onResume() {
+		registerReceiver(receiver, new IntentFilter(MainActivity.SMSRECEVID));
+		mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+		super.onResume();
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onPause()
+	 */
+	@Override
+	protected void onPause() {
+		mSensorManager.unregisterListener(mSensorListener);
+		unregisterReceiver(receiver);
+		super.onPause();
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onConfigurationChanged(android.content.res.Configuration)
+	 */
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+
+		ListView lv = (ListView) findViewById(R.id.conversationList);
+		SMSDetails currentSMS;
+
+		for(int i = 0; i < lv.getChildCount(); i++){
+			currentSMS = (SMSDetails) lv.getItemAtPosition(i);
+			if(_translatedSms.get(currentSMS.getId()) != null){
+				TextView txbBody = (TextView)lv.getChildAt(i).findViewById(R.id.tv_body);
+				txbBody.setText(_translatedSms.get(currentSMS.getId()).getBody());
+			}
+		}
+
+	}
+
+	/* (non-Javadoc)
+	 * @see com.finalProject.smstranslator.IOnTranslationCompleted#onTranslationCompleted(java.lang.String)
+	 */
+	public void onTranslationCompleted(String result)
+	{
+		if (this._translatedView.getId() == R.id.btnSend) {
+			Toast.makeText(MainActivity.getAppContext(), "Sent: "+result, Toast.LENGTH_LONG).show();
+		}
+		else if (this._translatedView instanceof EditText) {
+			EditText txb = (EditText) this._translatedView;
+			txb.setText(result);
+
+		}
+		else if (this._translatedView instanceof TextView) {
+			TextView textView = (TextView) this._translatedView;
+			textView.setText(result);
+
+			_curTranslatedItem.setBody(result);
+			_translatedSms.append(_curTranslatedItem.getId(), _curTranslatedItem);
+		}
+		_loading.cancel();
+	}
+
+	/**
+	 * Translate.
+	 * 
+	 * @param view
+	 *            the view
+	 */
+	public void translate(View view){
+		EditText txbMessage = (EditText) findViewById(R.id.txbMessage);
+		String expression = txbMessage.getText().toString();
+		this.triggerTranslation(txbMessage, expression);
+	}
+
+	/**
+	 * Send sms.
+	 * 
+	 * @param view
+	 *            the view
+	 */
+	public void sendSMS(View view){
+		final ProgressDialog prog = ProgressDialog.show(ConversationActivity.this, "", "Sending...", true);
+
+		EditText txbMessage = (EditText) findViewById(R.id.txbMessage);
+		String expression = txbMessage.getText().toString();
+		SmsManager sms = SmsManager.getDefault();
+		String phone = Uri.decode(_currentAddress).toString();
+
+		String SENT = "SMS_SENT";
+		String DELIVERED = "SMS_DELIVERED";
+
+		PendingIntent sentPI = PendingIntent.getBroadcast(this, 0,
+				new Intent(SENT), 0);
+
+		PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0,
+				new Intent(DELIVERED), 0);
+
+		//---when the SMS has been sent---
+		registerReceiver(new BroadcastReceiver(){
+			@Override
+			public void onReceive(Context arg0, Intent arg1) {
+				switch (getResultCode())
+				{
+				case Activity.RESULT_OK:
+					Toast.makeText(getBaseContext(), "SMS sent", Toast.LENGTH_SHORT).show();
+					updateConversation();
+					break;
+				case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+					Toast.makeText(getBaseContext(), "Generic failure", Toast.LENGTH_SHORT).show();
+					break;
+				case SmsManager.RESULT_ERROR_NO_SERVICE:
+					Toast.makeText(getBaseContext(), "No service", Toast.LENGTH_SHORT).show();
+					break;
+				case SmsManager.RESULT_ERROR_NULL_PDU:
+					Toast.makeText(getBaseContext(), "Null PDU", Toast.LENGTH_SHORT).show();
+					break;
+				case SmsManager.RESULT_ERROR_RADIO_OFF:
+					Toast.makeText(getBaseContext(), "Radio off", Toast.LENGTH_SHORT).show();
+					break;
+				}
+			}
+		}, new IntentFilter(SENT));
+
+		//---when the SMS has been delivered---
+		registerReceiver(new BroadcastReceiver(){
+			@Override
+			public void onReceive(Context arg0, Intent arg1) {
+				switch (getResultCode())
+				{
+				case Activity.RESULT_OK:
+					Toast.makeText(getBaseContext(), "SMS delivered", Toast.LENGTH_SHORT).show();
+					prog.cancel();
+					updateConversation();
+					break;
+				case Activity.RESULT_CANCELED:
+					Toast.makeText(getBaseContext(), "SMS not delivered", Toast.LENGTH_SHORT).show();
+					break;                        
+				}
+			}
+		}, new IntentFilter(DELIVERED));
+
+		sms.sendTextMessage(phone, null, expression, sentPI, deliveredPI);
+
+		txbMessage.setText("");
+	}
+
+	/**
+	 * Trigger translation.
+	 * 
+	 * @param activeControl
+	 *            the active control
+	 * @param expression
+	 *            the expression
+	 */
+	private void triggerTranslation(View activeControl, String expression, boolean reverse) {	
+		_loading = ProgressDialog.show(activeControl, "", "Translating. Please wait...", true);
+
+		AsyncTranslator asyncTrnaslator = new AsyncTranslator(); 
+		
+		String symbolFrom = PreferencesManager.getLanguageFrom();
+		String symbolTo = PreferencesManager.getLanguageTo();
+		
+		//is this a reverse translation
+		if (reverse) {
+			String temp = symbolFrom;
+			symbolFrom = symbolTo;
+			symbolTo = temp;
+		}
+
+		this._translatedView = activeControl;
+		asyncTrnaslator.execute(expression,symbolFrom, symbolTo, this);
+	}
+
+	/**
+	 * Update conversation.
+	 */
+	private void updateConversation(){
+
+		SMSProvider provider = new SMSProvider(this);
+		SMSAdapter adapter = new SMSAdapter(this, provider.getSMSDetails(_currentAddress));
+
+		final ListView lv = (ListView) findViewById(R.id.conversationList);
+		lv.setAdapter(adapter);
+		lv.setSelection(adapter.getCount() - 1);
+
+		lv.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> adapter, View view, int position, long id) {
+
+				_curTranslatedItem = (SMSDetails) adapter.getItemAtPosition(position);				
+
+				TextView txbBody = (TextView)view.findViewById(R.id.tv_body);
+				String txt = (String) txbBody.getText();
+				triggerTranslation(txbBody, txt, true);
+
+				// Toast.makeText(getBaseContext(),"Click!",Toast.LENGTH_SHORT).show();
+				return false;
+			}
+
+		});
+	}
+}

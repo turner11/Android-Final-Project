@@ -28,6 +28,6 @@
     
      <string name="pref_Native_Name_Key">NativeNameKey</string>
     <string name="pref_Native_Name">Show language native name</string>
-    <string name="pref_Native_Name_Summary">Show the language in it\'s native name rather in English</string>
+    <string name="pref_Native_Name_Summary">Show the language in its native name rather in English</string>
 
 </resources>

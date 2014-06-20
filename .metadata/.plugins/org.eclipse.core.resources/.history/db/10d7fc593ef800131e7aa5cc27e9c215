@@ -92,9 +92,6 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	    if (pref instanceof ListPreference) {
 	        ListPreference listPref = (ListPreference) pref;
 	        pref.setSummary(listPref.getEntry());
-	    }else if(key == getResources().getString(R.string.pref_Native_Name_Key))
-	    {
-	    	InitListPreferences();
 	    }
 	}
 	

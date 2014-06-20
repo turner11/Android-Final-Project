@@ -10,13 +10,6 @@
             android:title="@string/pref_LangTo" />
         
         <CheckBoxPreference
-                android:key="@string/pref_Native_Name_Key"                
-                android:title="@string/pref_Native_Name"            
-                android:summary="@string/pref_Native_Name_Summary"
-                android:defaultValue="false"  
-          />
-        
-        <CheckBoxPreference
                 android:key="@string/pref_Auto_LangFromKey"                
                 android:title="@string/pref_Auto_LangFrom"    
                 android:summary="@string/pref_Auto_LangFrom_Summary"     
@@ -29,8 +22,6 @@
                 android:summary="@string/pref_Auto_LangTo_Summary"
                 android:defaultValue="false"  
           />
-          
-           
     </PreferenceCategory>
 
 </PreferenceScreen>
