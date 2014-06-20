@@ -82,10 +82,10 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 			mAccelCurrent = (float) Math.sqrt((double) (x*x + y*y + z*z));
 			float delta = mAccelCurrent - mAccelLast;
 			mAccel = mAccel * 0.9f + delta; // perform low-cut filter
-			if (mAccel > 20) {
-				Toast.makeText(getApplicationContext(), "Translations cleared", Toast.LENGTH_LONG).show(); 
-				_translatedSms.clear();
+			if (mAccel > 20) {				 
+				_translatedSms.clear();				
 				updateConversation();
+				Toast.makeText(getApplicationContext(), "Translations cleared", Toast.LENGTH_LONG).show();
 			}
 		}
 
@@ -229,7 +229,7 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 	public void translate(View view){
 		EditText txbMessage = (EditText) findViewById(R.id.txbMessage);
 		String expression = txbMessage.getText().toString();
-		this.triggerTranslation(txbMessage, expression);
+		this.triggerTranslation(txbMessage, expression,false);
 	}
 
 	/**
@@ -312,13 +312,20 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 	 * @param expression
 	 *            the expression
 	 */
-	private void triggerTranslation(View activeControl, String expression) {	
+	private void triggerTranslation(View activeControl, String expression, boolean reverse) {	
 		_loading = ProgressDialog.show(ConversationActivity.this, "", "Translating. Please wait...", true);
 
 		AsyncTranslator asyncTrnaslator = new AsyncTranslator(); 
-
+		
 		String symbolFrom = PreferencesManager.getLanguageFrom();
 		String symbolTo = PreferencesManager.getLanguageTo();
+		
+		//is this a reverse translation
+		if (reverse) {
+			String temp = symbolFrom;
+			symbolFrom = symbolTo;
+			symbolTo = temp;
+		}
 
 		this._translatedView = activeControl;
 		asyncTrnaslator.execute(expression,symbolFrom, symbolTo, this);
@@ -345,7 +352,7 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 
 				TextView txbBody = (TextView)view.findViewById(R.id.tv_body);
 				String txt = (String) txbBody.getText();
-				triggerTranslation(txbBody, txt);
+				triggerTranslation(txbBody, txt, true);
 
 				// Toast.makeText(getBaseContext(),"Click!",Toast.LENGTH_SHORT).show();
 				return false;
@@ -353,4 +360,6 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 
 		});
 	}
+	
+	
 }

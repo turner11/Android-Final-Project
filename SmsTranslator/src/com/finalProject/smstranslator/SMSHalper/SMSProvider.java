@@ -104,6 +104,8 @@ public class SMSProvider {
 			else if(phoneNumber.startsWith("+"))
 				phoneNumber = phoneNumber.substring(4).trim();	
 
+			//Remove all non numeric characters
+			phoneNumber = phoneNumber.replaceAll("[^\\d.]", "");
 			phoneNumber = "0"+phoneNumber;
 		}
 		return phoneNumber;

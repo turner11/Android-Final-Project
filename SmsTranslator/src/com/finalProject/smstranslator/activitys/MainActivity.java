@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onResume() {
 		registerReceiver(receiver, new IntentFilter(MainActivity.SMSRECEVID));
-		updateView();
+		//updateView();
 		super.onResume();
 	}
 
