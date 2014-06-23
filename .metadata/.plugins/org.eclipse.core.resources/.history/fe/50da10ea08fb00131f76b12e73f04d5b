@@ -58,8 +58,7 @@ public class SMSProvider {
 			while (!curser.isAfterLast()) {
 				String rawPhoneNumber = curser.getString(1);
 				String phoneNumber = getNormalizedPhoneNumber(rawPhoneNumber);
-				 //for debug:
-				//String tempmsg = curser.getString(3);
+
 				if (phoneNumber != null ) {
 
 
@@ -69,18 +68,10 @@ public class SMSProvider {
 					}else{
 						SMSMainDetails currDetails = new SMSMainDetails();
 						currDetails.setAddress(phoneNumber);
-						
-						String message = curser.getString(3);
-						currDetails.setFirstMsg(message);
-						
-						int personId = curser.getInt(2);
-						currDetails.setPersonId(personId);
-						
-						Date date = new Date(curser.getLong(4));
-						currDetails.setDate(date);
-						
+						currDetails.setFirstMsg(curser.getString(3));
+						currDetails.setPersonId(curser.getInt(2));
+						currDetails.setDate(new Date(curser.getLong(4)));
 						currDetails.setCount(1);
-						
 						mapDetailsByPhoneNumber.put(phoneNumber, currDetails);
 					}
 				}
@@ -144,9 +135,8 @@ public class SMSProvider {
 				SMSProviderContruct.BODY, SMSProviderContruct.DATE};
 
 		// Get Content Resolver object, which will deal with Content Provider
-		String queryWhereClause = "replace(replace(replace(replace("+ SMSProviderContruct.ADDRESS+", '+', ''), '-', ''), '(', ''), ')', '')"+ " LIKE ?"; 
 		ContentResolver cr = context.getContentResolver();
-		Cursor curser = cr.query(allUri, reqCols, queryWhereClause, new String[] { "%" + addres + "%"}, SMSProviderContruct.DATE);
+		Cursor curser = cr.query(allUri, reqCols, SMSProviderContruct.ADDRESS + " LIKE ?", new String[] { "%" + addres + "%"}, SMSProviderContruct.DATE);
 
 		curser.moveToFirst();
 

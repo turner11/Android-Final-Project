@@ -7,9 +7,10 @@
 		<item value="816" key="WIDTH"/>
 	</section>
 	<section name="conditionHistory">
-		<item value="2" key="conditionHistoryEntryCount"/>
-		<item value="curser.getString(1) == &quot;+972502671116&quot;" key="conditionHistoryEntry_0"/>
-		<item value="curser.getString(1)==&quot;+972502671116&quot;;" key="conditionHistoryEntry_1"/>
+		<item value="3" key="conditionHistoryEntryCount"/>
+		<item value="rawPhoneNumber == &quot;(054) 799-8058&quot;;" key="conditionHistoryEntry_0"/>
+		<item value="curser.getString(1) == &quot;+972502671116&quot;" key="conditionHistoryEntry_1"/>
+		<item value="curser.getString(1)==&quot;+972502671116&quot;;" key="conditionHistoryEntry_2"/>
 	</section>
 	<section name="AddExceptionDialog">
 		<item value="true" key="uncaughtChecked"/>
