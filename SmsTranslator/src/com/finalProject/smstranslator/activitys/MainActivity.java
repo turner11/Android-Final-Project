@@ -1,21 +1,30 @@
 package com.finalProject.smstranslator.activitys;
 
 
+import com.finalProject.smstranslator.PreferencesManager;
 import com.finalProject.smstranslator.R;
+import com.finalProject.smstranslator.translate.IOnTranslationCompleted;
 import com.finalProject.smstranslator.SMSHalper.SMSProvider;
 import com.finalProject.smstranslator.SMSHalper.SMSMainAdapter;
 import com.finalProject.smstranslator.SMSHalper.SMSMainDetails;
+import com.finalProject.smstranslator.translate.AsyncTranslator;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 
 
@@ -133,4 +142,54 @@ public class MainActivity extends Activity {
 			}
 		});
 	}
+	
+	public void newMsg(View view){
+		final EditText input = new EditText(this);
+		input.setLines(4);
+		input.setGravity(Gravity.TOP);
+		
+		
+		AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
+	    .setTitle("New SMS")
+	    .setView(input)
+	    .setNeutralButton("Translate", null)
+	    .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+	        	String content = input.getText().toString();
+	        	Intent sendIntent = new Intent(Intent.ACTION_VIEW);         
+	        	sendIntent.setData(Uri.parse("sms:"));
+	        	sendIntent.putExtra("sms_body", content); 
+	        	startActivity(sendIntent);
+	        }
+	    })
+	    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+	            // Do nothing.
+	        }
+	    }).create();
+		
+		dialog.show();
+		dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
+			ProgressDialog _loading;
+			@Override
+			public void onClick(View view) {
+				_loading = ProgressDialog.show(MainActivity.this, "", "Translating. Please wait...", true);
+				String expression = input.getText().toString();
+	    		AsyncTranslator asyncTrnaslator = new AsyncTranslator(); 
+	    		
+	    		String symbolFrom = PreferencesManager.getLanguageFrom();
+	    		String symbolTo = PreferencesManager.getLanguageTo();
+	    		
+	    		asyncTrnaslator.execute(expression,symbolFrom, symbolTo, new IOnTranslationCompleted(){
+
+					@Override
+					public void onTranslationCompleted(String result) {
+						input.setText(result);
+						_loading.cancel();
+					}
+	    		
+	    		});
+	        }});
+	}
+	
 }

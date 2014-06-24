@@ -49,5 +49,5 @@
         android:layout_alignBottom="@+id/user_img"
         android:layout_alignRight="@+id/tv_msg_count"
         android:textAppearance="?android:attr/textAppearanceSmall" />
-
+	
 </RelativeLayout>
