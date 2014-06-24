@@ -121,9 +121,16 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
+				try {
+					Thread.sleep(2000);
+				} catch (Exception e) {
+				}
 				updateConversation();
 			}
 		};
+		IntentFilter filter = new IntentFilter();
+        filter.addAction(MainActivity.SMSRECEVID);
+		registerReceiver(receiver, filter);
 		_translatedSms = new SparseArray<SMSDetails>();
 
 		//shake
@@ -162,7 +169,9 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 	 */
 	@Override
 	protected void onResume() {
-		registerReceiver(receiver, new IntentFilter(MainActivity.SMSRECEVID));
+		IntentFilter filter = new IntentFilter();
+        filter.addAction(MainActivity.SMSRECEVID);
+        registerReceiver(receiver, filter);
 		mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
 		super.onResume();
 	}
@@ -239,8 +248,6 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 	 *            the view
 	 */
 	public void sendSMS(View view){
-		final ProgressDialog prog = ProgressDialog.show(ConversationActivity.this, "", "Sending...", true);
-
 		EditText txbMessage = (EditText) findViewById(R.id.txbMessage);
 		String expression = txbMessage.getText().toString();
 		SmsManager sms = SmsManager.getDefault();
@@ -289,7 +296,6 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 				{
 				case Activity.RESULT_OK:
 					Toast.makeText(getBaseContext(), "SMS delivered", Toast.LENGTH_SHORT).show();
-					prog.cancel();
 					updateConversation();
 					break;
 				case Activity.RESULT_CANCELED:

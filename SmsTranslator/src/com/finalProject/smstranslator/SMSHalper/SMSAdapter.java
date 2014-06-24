@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,9 +55,11 @@ public class SMSAdapter extends ArrayAdapter<SMSDetails> {
 		
 		if(data.get(position).getType() == SMSProviderContruct.MESSAGE_TYPE_INBOX){
 			r.setBackground(context.getResources().getDrawable(R.drawable.l_bubble));
+			body.setGravity(Gravity.LEFT);
 		}
 		else{
 			r.setBackground(context.getResources().getDrawable(R.drawable.r_bubble));
+			body.setGravity(Gravity.RIGHT);
 		}
 		return row;
 	}
