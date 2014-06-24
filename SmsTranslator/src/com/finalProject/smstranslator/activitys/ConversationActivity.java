@@ -312,11 +312,10 @@ public class ConversationActivity extends Activity implements IOnTranslationComp
 
 	/**
 	 * Trigger translation.
-	 * 
-	 * @param activeControl
-	 *            the active control
-	 * @param expression
-	 *            the expression
+	 *
+	 * @param activeControl            the active control
+	 * @param expression            the expression
+	 * @param reverse the reverse
 	 */
 	private void triggerTranslation(View activeControl, String expression, boolean reverse) {	
 		_loading = ProgressDialog.show(ConversationActivity.this, "", "Translating. Please wait...", true);

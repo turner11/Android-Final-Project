@@ -143,6 +143,11 @@ public class MainActivity extends Activity {
 		});
 	}
 	
+	/**
+	 * New msg.
+	 *
+	 * @param view the view
+	 */
 	public void newMsg(View view){
 		final EditText input = new EditText(this);
 		input.setLines(4);
