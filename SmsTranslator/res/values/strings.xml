@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SmsTranslator</string>
+    <string name="app_name">SMS Translator</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="Send">Send</string>
@@ -14,7 +14,7 @@
     <string name="pref_LangTo_summary">Set the Language to translate to</string>
     <string name="new_message">New Message</string>
     <string name="user_image">User image</string>
-    <string name="title_activity_conversation">ConversationActivity</string>
+    <string name="title_activity_conversation">Conversation Details</string>
     <string name="send">Send</string>
 
     <string name="pref_Auto_LangFromKey">AutoPrefFromKey</string>
